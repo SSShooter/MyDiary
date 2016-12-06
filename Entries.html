@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>MyDiary</title>
+	<!-- 新 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="icon/iconfont.css">
+	<!-- 自定义bs -->
+	<link rel="stylesheet" type="text/css" href="custombs.css">
+	<style>
+		/*程序样式表*/
+		*{
+			font-family: "微软雅黑";
+		}
+		header{
+			/*padding for导航栏*/
+			padding-top: 28px;
+			border-bottom: 1px solid #5A95BA;
+			position: fixed;
+			width: 100vw;
+			background-color: #fff;
+		}
+		#logo{
+			color: #5A95BA;
+			margin: 5px auto;
+		}
+		#main{
+			background-image: url('52502973_p0.png');
+			background-repeat: repeat;
+			min-height: 100vh;
+			box-sizing: border-box;
+			padding-top:95px; 
+			padding-bottom: 44px;
+		}
+		.item{
+			height: 80px;
+			background-color: #fff;
+			border-radius: 5px;
+			margin-bottom: 10px;
+			color: #5A95BA;
+		}
+		.date-and-week{
+			padding-top: 10px;
+			height: 60px;
+			width: 60px;
+			text-align: center;
+		}
+		.date-and-week .date{
+			font-size: 40px;
+			line-height: 40px;
+			margin-bottom: 0;
+		}
+		.content{
+			padding-top: 14px;
+		}
+		.content p{
+			margin-bottom: 0;
+		}
+		.content .create_time{
+			font-size: 10px;
+		}
+		.content .description{
+			font-size: 10px;
+		}
+		.state{
+			padding-right: 10px;
+			padding-top: 14px;
+		}
+		.state i{
+			margin: 0 2px;
+		}
+		.state p{
+			text-align: right;
+			font-size: 20px;
+		}
+		footer{
+			position: fixed;
+			width: 100vw;
+			height: 44px;
+			background-color: #5A95BA;
+			bottom: 0;
+		}
+		footer nav i{
+			color: #FFF;
+			line-height: 44px;
+			padding: 0 15px;
+			font-size: 35px;
+		}
+		footer nav .total{
+			color: #FFF;
+			line-height: 44px;
+			padding: 0 15px;
+			float: right;
+			font-size: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div class="app">
+		<header>
+			<div class="text-center">
+				<div class="btn-group btn-group-sm">
+					<button type="button" class="btn btn-default active">Entries</button>
+					<button type="button" class="btn btn-default">Calendar</button>
+					<button type="button" class="btn btn-default">Diary</button>
+				</div>
+			</div>
+			<p id="logo" class="center-block">Diary</p>
+		</header>
+		<div id="main" class="container">
+			<div class="item">
+				<div class="date-and-week pull-left">
+					<p class="date">11</p>
+					<p class="week">Sun</p>
+				</div>
+				<div class="content pull-left">
+					<p class="create_time">16:21</p>
+					<p class="title">バイト</p>
+					<p class="description"></p>
+				</div>
+				<div class="state pull-right">
+					<i class="iconfont icon-yintian"></i>
+					<i class="iconfont icon-smile-copy"></i>
+					<i class="iconfont icon-biaoqian"></i>
+				</div>
+			</div>
+			<div class="item">
+				<div class="date-and-week pull-left">
+					<p class="date">9</p>
+					<p class="week">Fri</p>
+				</div>
+				<div class="content pull-left">
+					<p class="create_time">21.12</p>
+					<p class="title">東京生活３</p>
+					<p class="description">お台場水族館に男子二人と</p>
+				</div>
+				<div class="state pull-right">
+					<i class="iconfont icon-qing"></i>
+					<i class="iconfont icon-smile-copy"></i>
+					<i class="iconfont icon-biaoqian"></i>
+					<p><i class="iconfont icon-fujian"></i></p>
+				</div>
+			</div>
+			<div class="item">
+				<div class="date-and-week pull-left">
+					<p class="date">8</p>
+					<p class="week">Thu</p>
+				</div>
+				<div class="content pull-left">
+					<p class="create_time">21.12</p>
+					<p class="title">中間テスト開始</p>
+					<p class="description"></p>
+				</div>
+				<div class="state pull-right">
+					<i class="iconfont icon-qing"></i>
+					<i class="iconfont icon-smile-copy"></i>
+					<i class="iconfont icon-biaoqian"></i>
+				</div>
+			</div>
+		</div>
+		<footer>
+			<nav>
+				<i class="iconfont icon-liebiao"></i>
+				<i class="iconfont icon-qianbi"></i>
+				<i class="iconfont icon-androidcamera"></i>
+				<span class="total">2 Entries</span>
+			</nav>
+		</footer>
+	</div>
+	<script type="text/javascript" src="common.js"></script>
+</body>
+</html>
