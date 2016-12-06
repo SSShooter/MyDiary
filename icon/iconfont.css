@@ -1,10 +1,10 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1480991750672'); /* IE9*/
-  src: url('iconfont.eot?t=1480991750672#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.woff?t=1480991750672') format('woff'), /* chrome, firefox */
-  url('iconfont.ttf?t=1480991750672') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1480991750672#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1481030742010'); /* IE9*/
+  src: url('iconfont.eot?t=1481030742010#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1481030742010') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1481030742010') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1481030742010#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -21,6 +21,12 @@
 .icon-fujian:before { content: "\e60d"; }
 
 .icon-qianbi:before { content: "\e65f"; }
+
+.icon-cancel:before { content: "\e623"; }
+
+.icon-camera:before { content: "\e705"; }
+
+.icon-save:before { content: "\ecea"; }
 
 .icon-smile-copy:before { content: "\e61b"; }
 
