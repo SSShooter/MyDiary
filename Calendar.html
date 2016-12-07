@@ -64,6 +64,9 @@
 			font-size: 20px;
 			line-height: 30px;
 		}
+		.app{
+			display: none;
+		}
 	</style>
 </head>
 <body>
@@ -71,9 +74,9 @@
 		<header>
 			<div class="text-center">
 				<div class="btn-group btn-group-sm">
-					<button type="button" class="btn btn-default">Entries</button>
+					<button type="button" class="btn btn-default" onClick="location='Entries.html'">Entries</button>
 					<button type="button" class="btn btn-default active">Calendar</button>
-					<button type="button" class="btn btn-default">Diary</button>
+					<button type="button" class="btn btn-default" onClick="location='Diary.html'">Diary</button>
 				</div>
 			</div>
 			<p id="logo" class="center-block">Diary</p>
@@ -92,6 +95,7 @@
 	<script type="text/javascript" src="common.js"></script>
 	<script type="text/javascript" src="js/alloy_finger.js"></script>
 	<script type="text/javascript">
+		$(".app").fadeIn('slow');
 		var thisday2card = function(day){
 			var d = day;
 			var monthEnglish = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];

@@ -84,6 +84,9 @@
 			padding: 0 15px;
 			font-size: 25px;
 		}
+		.app{
+			display: none;
+		}
 	</style>
 </head>
 <body>
@@ -91,8 +94,8 @@
 		<header>
 			<div class="text-center">
 				<div class="btn-group btn-group-sm">
-					<button type="button" class="btn btn-default">Entries</button>
-					<button type="button" class="btn btn-default">Calendar</button>
+					<button type="button" class="btn btn-default" onClick="location='Entries.html'">Entries</button>
+					<button type="button" class="btn btn-default" onClick="location='Calendar.html'">Calendar</button>
 					<button type="button" class="btn btn-default active">Diary</button>
 				</div>
 			</div>
@@ -106,29 +109,65 @@
 			</div>
 			<div class="input-div container">
 				<input type="text" class="form-control diary-title" placeholder="Title">
-				<textarea class="form-control diary-content" placeholder="Content"></textarea>
+				<textarea class="form-control diary-content" id="diary-content" placeholder="Content"></textarea>
 			</div>
 		</div>
 		<footer>
 			<nav>
 				<i class="iconfont icon-camera"></i>
-				<i class="iconfont icon-save"></i>
+				<i class="iconfont icon-save" onclick="save()"></i>
 				<i class="iconfont icon-cancel"></i>
 			</nav>
 		</footer>
 	</div>
 	<script type="text/javascript" src="common.js"></script>
+	<script type="text/javascript" src="indexeddb.js"></script>
 	<script type="text/javascript">
+		$(".app").fadeIn('slow');
 		var d = new Date();
-		var monthEnglish = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+		var monthEng = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 		var dayEnglish = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+		var dayEng = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+		var year = d.getFullYear();
 		var month = d.getMonth();
 		var date = d.getDate();
 		var day = d.getDay();
 		var time = d.getHours() + ':' + d.getMinutes();
-		$('.month').html(monthEnglish[month]);
+		$('.month').html(monthEng[month]);
 		$('.date').html(date);
-		$('.time').html(dayEnglish[day]+" "+time);
+		$('.time').html(dayEnglish[day]+' '+time);
+
+		function save(){
+			console.log(document.getElementById("diary-content").value);
+			var title = $(".diary-title").val()||'No Title';
+			var content = document.getElementById("diary-content").value.replace(/\r/ig, "<br/>").replace(/\n/ig, "<br/>");//用jquery的.val()不能识别回车
+			var hm = $('.show-date .time .hm').html();//for hour Minute
+			var timestamp = new Date().getTime();
+			var folder = year+""+(month+1);
+			var create_date = getNowFormatDate();
+			var data = {id:"id"+timestamp,create_date:create_date,content:content,title:title,folder:folder,date:date,day:dayEng[day],time:time,month:monthEng[month]};
+			console.log(data);
+			addData("diary",data);
+		}
+
+		function getNowFormatDate() {
+		    var date = new Date();
+		    var seperator1 = "-";
+		    var seperator2 = ":";
+		    var month = date.getMonth() + 1;
+		    var strDate = date.getDate();
+		    if (month >= 1 && month <= 9) {
+		        month = "0" + month;
+		    }
+		    if (strDate >= 0 && strDate <= 9) {
+		        strDate = "0" + strDate;
+		    }
+		    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+		            + " " + date.getHours() + seperator2 + date.getMinutes()
+		            + seperator2 + date.getSeconds();
+		    return currentdate;
+		}
+
 	</script>
 </body>
 </html>

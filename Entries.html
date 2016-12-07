@@ -41,9 +41,15 @@
 		.item{
 			height: 80px;
 			background-color: #fff;
-			border-radius: 5px;
+			border-radius: 6px;
 			margin-bottom: 10px;
 			color: #5A95BA;
+		}
+		.month-item{
+			line-height: 60px;
+			font-size: 40px;
+			color: #FFF;
+			text-align: center;
 		}
 		.date-and-week{
 			padding-top: 10px;
@@ -99,22 +105,72 @@
 			float: right;
 			font-size: 20px;
 		}
-
+		.app{
+			display: none;
+		}
+		/*css of modal*/
+		.show-date{
+			height: 140px;
+			width: 100%;
+			background-color: #5A95BA;
+			color: #FFF;
+			text-align: center;
+			/*border-radius: 6px 6px 0 0;*/
+		}
+		.show-date .date{
+			font-size: 60px;
+			line-height: 60px;
+			font-weight: bold;
+		}
+		.show-date .month, .show-date .time{
+			font-size: 15px;
+			line-height: 20px;
+		}
+		.modal-footer{
+			background-color: #5A95BA;
+		}
 	</style>
 </head>
 <body>
+
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button> -->
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header show-date">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<div class="month">1</div>
+				<div class="date">1</div>
+				<div class="time">1</div>
+			</div>
+			<div class="modal-body">
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 	<div class="app">
 		<header>
 			<div class="text-center">
 				<div class="btn-group btn-group-sm">
 					<button type="button" class="btn btn-default active">Entries</button>
-					<button type="button" class="btn btn-default">Calendar</button>
-					<button type="button" class="btn btn-default">Diary</button>
+					<button type="button" class="btn btn-default" onClick="location='Calendar.html'">Calendar</button>
+					<button type="button" class="btn btn-default" onClick="location='diary.html'">Diary</button>
 				</div>
 			</div>
 			<p id="logo" class="center-block">Diary</p>
 		</header>
 		<div id="main" class="container">
+			<!-- <div class="month-item">9</div>
 			<div class="item">
 				<div class="date-and-week pull-left">
 					<p class="date">11</p>
@@ -163,17 +219,62 @@
 					<i class="iconfont icon-smile-copy"></i>
 					<i class="iconfont icon-biaoqian"></i>
 				</div>
-			</div>
+			</div> -->
+
 		</div>
 		<footer>
 			<nav>
 				<i class="iconfont icon-liebiao"></i>
 				<i class="iconfont icon-qianbi"></i>
 				<i class="iconfont icon-androidcamera"></i>
-				<span class="total">3 Entries</span>
+				<span class="total"></span>
 			</nav>
 		</footer>
 	</div>
 	<script type="text/javascript" src="common.js"></script>
+	<script type="text/javascript" src="indexeddb.js"></script>
+	<script type="text/javascript">
+		$(".app").fadeIn('slow');
+		getDataAll("diary", process);
+		function process(rowdata){
+	    	var data = rowdata.data;
+	    	var monthDivision;
+	    	console.log(data);
+	    	$('.total').html(data.length+' Entries');
+	    	for(var i = 0;i<data.length;i++){
+	    		var item = '<div id="'+data[i].id+'" data-toggle="modal" data-target="#myModal" class="item"><div class="date-and-week pull-left"><p class="date">'+data[i].date+'</p><p class="week">'+data[i].day+'</p></div><div class="content pull-left"><p class="create_time">'+data[i].time+'</p><p class="title">'+data[i].title+'</p><p class="description"></p></div><div class="state pull-right"><i class="iconfont icon-qing"></i><i class="iconfont icon-smile-copy"></i><i class="iconfont icon-biaoqian"></i></div></div>';
+	    		$("#main").prepend(item);
+	    		console.log(data[i+1]);
+	    		if(data[i+1]){
+	    			if (data[i].folder!==data[i+1].folder) {
+		    			monthDivision = data[i].folder.substring(4);
+		    			$("#main").prepend('<div class="month-item">'+monthDivision+'</div>');
+		    		}
+	    		}else{
+	    			monthDivision = data[i].folder.substring(4);
+		    		$("#main").prepend('<div class="month-item">'+monthDivision+'</div>');
+	    		}
+	    		
+	    	}
+	    	// $("#loader").velocity({opacity:0},{display:"none"});
+	    }
+	    $('#main').on('click','.item',function(){
+	    	var id = $(this).attr('id');
+	    	read(id);
+	    });
+	    function read(id){
+	    	getDataById(id,loadDiary);
+	    }
+	    function loadDiary(ret){
+			var data = ret.data;
+			$('.month').html(data.month);
+			$('.date').html(data.date);
+			$('.time').html(data.time);
+			$('.modal-body').html(data.content);
+			// $("#main").append(data.content).fadeIn();
+			// $("#main").append('<div class="date">'+data.modify_date+'</div>');
+		}
+		
+	</script>
 </body>
 </html>
