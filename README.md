@@ -1,7 +1,7 @@
 # MyDiary
-    进度：
-    界面完成度：70%
-    功能完成度：50%( 进度猛增 数据储存方式参考之前写的日记应用https://github.com/ssshooter/DAnote )
+进度：
+界面完成度：70%
+功能完成度：50% 进度猛增 数据储存方式参考[之前写的日记应用](https://github.com/ssshooter/DAnote) 
     
 # 界面截图
 ![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/01.png)
