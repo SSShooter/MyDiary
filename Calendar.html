@@ -5,13 +5,14 @@
 	<title>Calendar</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<!-- 新 Bootstrap 核心 CSS 文件 -->
-	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="bootstrap/bootstrap.min.css">
 	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-	<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+	<script src="lib/jquery.min.js"></script>
 	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-	<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<script src="bootstrap/bootstrap.min.js"></script>
 	<!-- 自定义bs -->
-	<link rel="stylesheet" type="text/css" href="custombs.css">
+	<link rel="stylesheet" type="text/css" href="css/custombs.css">
+	<link rel="stylesheet" type="text/css" href="css/animate.min.css">
 	<style type="text/css">
 		*{
 			font-family: "微软雅黑";
@@ -37,6 +38,7 @@
 		}
 		.app{
 			background-color: #5A95BA;
+			overflow: hidden;
 		}
 		.center {
 		  width: 50%;
@@ -67,6 +69,10 @@
 		.app{
 			display: none;
 		}
+		/*animate.css duration*/
+		.center {
+		  	animation-duration: .5s;
+		}
 	</style>
 </head>
 <body>
@@ -92,10 +98,20 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="common.js"></script>
-	<script type="text/javascript" src="js/alloy_finger.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript" src="lib/alloy_finger.js"></script>
 	<script type="text/javascript">
 		$(".app").fadeIn('slow');
+		// animate.css 拓展
+		$.fn.extend({
+		    animateCss: function (animationName, fn) {
+		        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+		        this.addClass('animated ' + animationName).one(animationEnd, function() {
+		            $(this).removeClass('animated ' + animationName);
+		            if(fn)fn();
+		        });
+		    }
+		});
 		var thisday2card = function(day){
 			var d = day;
 			var monthEnglish = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -116,13 +132,18 @@
                 console.log('touch start');
             },
             swipe:function(evt){
-            	console.log(evt);
                 if(evt.direction==="Left"){
                     thisday = new Date(thisday.getTime()+1000*60*60*24);
-                    thisday2card(thisday);
+                    $('.center').animateCss('fadeOutLeft',function(){
+                    	thisday2card(thisday);
+                    	$('.center').animateCss('fadeInRight');
+                    });
                 }else if(evt.direction==="Right"){
-                    thisday = new Date(thisday.getTime()-1000*60*60*24);
-                    thisday2card(thisday);
+                	thisday = new Date(thisday.getTime()-1000*60*60*24);
+                	$('.center').animateCss('fadeOutRight',function(){
+                    	thisday2card(thisday);
+                    	$('.center').animateCss('fadeInLeft');
+                    });
                 }
             }
         });
