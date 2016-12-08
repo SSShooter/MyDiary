@@ -11,4 +11,4 @@
 
 # 功能测试
 ![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/05.png)
-![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/06.png)
+![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/07.png)
