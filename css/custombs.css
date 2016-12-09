@@ -1,4 +1,7 @@
 /*修改bootstrap*/
+*{
+	font-family: "微软雅黑";
+}
 .btn-sm, .btn-group-sm>.btn{
 	padding: 5px 20px;
 }

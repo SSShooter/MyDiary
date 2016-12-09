@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>List</title>
+	<link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+	<script src="lib/jquery.min.js"></script>
+	<script src="bootstrap/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="icon/iconfont.css">
+	<link rel="stylesheet" type="text/css" href="css/custombs.css">
+	<style type="text/css">
+		header{
+			/*padding for导航栏*/
+			padding-top: 22px;
+			position: fixed;
+			width: 100vw;
+			background-color: #5A95BA;
+			color: #FFF;
+		}
+		header .title{
+			font-size: 25px;
+			text-align: center;
+			line-height: 66px;
+		}
+		header .iconfont{
+			position: absolute;
+			right: 20px;
+			top: 36px;
+			font-size: 25px;
+		}
+		#main{
+			padding-top:88px; 
+			padding-bottom: 44px;
+			overflow: hidden;
+		}
+		#main ul{
+			background-image: url('line.png');
+			background-size:100vw 60px;
+			position: relative;
+			right: 10px;
+		}
+		#main ul li{
+			font-size: 20px;
+			color: #5A95BA;
+			line-height: 60px;
+			word-wrap: break-word;
+		}
+		#main ul li span{
+			word-wrap: break-word;
+		}
+		del{
+			opacity: 0.5;
+		}
+	</style>
+</head>
+<body>
+	<div class="app">
+		<header>
+			<div class="title">ゼッタイ禁止</div>
+			<i class="iconfont icon-qianbi"></i>
+		</header>
+		<div id="main" class="container">
+			<ul>
+				<li>お風呂ぜっっったい禁止！！！！</li>
+				<li>体は見ない/触らない！！</li>
+				<li>脚をひらくな！</li>
+				<li><del>男子に触るな！<del></li>
+				<li>女子にも触るな！</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

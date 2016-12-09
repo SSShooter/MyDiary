@@ -24,7 +24,7 @@ function closeDB() {
    db_obj.close();
 }
 function deleteDB() {
-   indexedDB.deleteDatabase('disannoy');
+   indexedDB.deleteDatabase('mydiary');
 }
 function addData(table, data, cb) {
    var transaction = db_obj.transaction(table, 'readwrite');
@@ -128,7 +128,7 @@ function getDataById(id, cb) {
    }
 }
 function checkMonthContent(id, cb) {//检测month文件夹是否有内容
-indexedDB.open('disannoy', 1).onsuccess = function (e) {
+indexedDB.open('mydiary', 1).onsuccess = function (e) {
    db_obj = e.target.result;
    var transaction = db_obj.transaction("diary", 'readwrite');
    transaction.oncomplete = function () {
@@ -186,7 +186,7 @@ function getDataAll(table, cb) {//按创建时间排列
    };
 }
 function getMDList(cb) {//按修改日期排列
-	indexedDB.open('disannoy', 1).onsuccess = function (e) {
+	indexedDB.open('mydiary', 1).onsuccess = function (e) {
    db_obj = e.target.result;
    var transaction = db_obj.transaction("diary", 'readonly');
    transaction.oncomplete = function () {
@@ -212,8 +212,8 @@ function getMDList(cb) {//按修改日期排列
    };
 }
 
-function getDataBySearch(keywords, cb) {
-	indexedDB.open('disannoy', 1).onsuccess = function (e) {
+function getDiaryBySearch(keywords, cb) {
+	indexedDB.open('mydiary', 1).onsuccess = function (e) {
    db_obj = e.target.result;
    var transaction = db_obj.transaction("diary", 'readwrite');
    transaction.oncomplete = function () {
@@ -225,7 +225,7 @@ function getDataBySearch(keywords, cb) {
    var objectStore = transaction.objectStore("diary");
    var boundKeyRange = IDBKeyRange.only(keywords);
    var rowData=[];
-   objectStore.index("folder").openCursor(boundKeyRange).onsuccess = function (event) {
+   objectStore.index("diary").openCursor(boundKeyRange).onsuccess = function (event) {
       var cursor = event.target.result;
       if (!cursor) {
          if (cb) {
@@ -241,8 +241,24 @@ function getDataBySearch(keywords, cb) {
    };
    };
 }
+function searchString(keyword){
+   var keyword = keyword;
+   var transaction = db_obj.transaction("diary", "readwrite");
+   var objectStore = transaction.objectStore("diary");
+   var request = objectStore.openCursor();
+   request.onsuccess = function(event) {
+       var cursor = event.target.result;
+       if (cursor) {
+           if (cursor.value.title.indexOf(keyword) !== -1 ||cursor.value.content.indexOf(keyword) !== -1) {                
+               console.log("We found a row with value: " + JSON.stringify(cursor.value));
+           }  
+
+           cursor.continue();          
+       }
+   };
+}
 function getFirstCreateDate(cb) {
-	indexedDB.open('disannoy', 1).onsuccess = function (e) {
+	indexedDB.open('mydiary', 1).onsuccess = function (e) {
    db_obj = e.target.result;
    var transaction = db_obj.transaction("diary", 'readwrite');
    transaction.oncomplete = function () {
