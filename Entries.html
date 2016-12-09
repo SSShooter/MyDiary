@@ -121,7 +121,7 @@
 			text-align: center;
 		}
 		.reading-content{
-			width: 80%;
+			width: 90%;
 			margin: 10px auto;
 		}
 		.modal-content{
@@ -266,12 +266,12 @@
 	    		$("#main").prepend(item);
 	    		console.log(data[i+1]);
 	    		if(data[i+1]){
-	    			if (data[i].folder!==data[i+1].folder) {
-		    			monthDivision = data[i].folder.substring(4);
+	    			if (data[i].month!==data[i+1].month) {
+		    			monthDivision = data[i].month;
 		    			$("#main").prepend('<div class="month-item">'+monthDivision+'</div>');
 		    		}
 	    		}else{
-	    			monthDivision = data[i].folder.substring(4);
+	    			monthDivision = data[i].month;
 		    		$("#main").prepend('<div class="month-item">'+monthDivision+'</div>');
 	    		}
 	    		

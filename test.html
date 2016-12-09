@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title></title>
     <style>#edit{height:500px;width:500px;border:1px solid red;}</style>
+
+    <script src="lib/jquery.min.js"></script>
 </head>
 <body>
     <div id="edit" contenteditable></div>
@@ -15,7 +17,7 @@
 
         // 定义最后光标对象
         var lastEditRange;
-
+        var range,textNode,rangeStartOffset;
         // 编辑框点击事件
         document.getElementById('edit').onclick = function() {
             // 获取选定对象
@@ -81,13 +83,21 @@
                 selection.addRange(range)
             } else {
                 // 如果是文本节点则先获取光标对象
-                var range = selection.getRangeAt(0)
-                // 获取光标对象的范围界定对象，一般就是textNode对象
-                var textNode = range.startContainer;
-                // 获取光标位置
-                var rangeStartOffset = range.startOffset;
-                // 文本节点在光标位置处插入新的表情内容
-                textNode.insertData(rangeStartOffset, emojiInput.value)
+                if(selection.getRangeAt(0)){
+                    range = selection.getRangeAt(0)
+                    console.log(range);
+                    // 获取光标对象的范围界定对象，一般就是textNode对象
+                    textNode = range.startContainer;
+                    console.log(textNode);
+                    // 获取光标位置
+                    rangeStartOffset = range.startOffset;
+                    console.log(rangeStartOffset);
+                    // 文本节点在光标位置处插入新的表情内容
+                    textNode.insertData(rangeStartOffset, emojiInput.value)
+                }else{
+                    alert("alert");
+                }
+                
                 // 光标移动到到原来的位置加上新内容的长度
                 range.setStart(textNode, rangeStartOffset + emojiInput.value.length)
                 // 光标开始和光标结束重叠

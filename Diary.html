@@ -135,6 +135,7 @@
 		var date = d.getDate();
 		var day = d.getDay();
 		var time = d.getHours() + ':' + d.getMinutes();
+		var folder = localStorage.getItem("folder")||'';
 		$('.month').html(monthEng[month]);
 		$('.date').html(date);
 		$('.time').html(dayEnglish[day]+' '+time);
@@ -142,10 +143,10 @@
 		function save(){
 			console.log(document.getElementById("diary-content"));
 			var title = $(".diary-title").val()||'No Title';
-			var content = document.getElementById("diary-content").value.replace(/\r/ig, "<br/>").replace(/\n/ig, "<br/>");//用jquery的.val()不能识别回车
+			//var content = document.getElementById("diary-content").value.replace(/\r/ig, "<br/>").replace(/\n/ig, "<br/>");//用jquery的.val()不能识别回车
+			var content = $("#diary-content").html();
 			var hm = $('.show-date .time .hm').html();//for hour Minute
 			var timestamp = new Date().getTime();
-			var folder = year+""+(month+1);
 			var create_date = getNowFormatDate();
 			var data = {id:"id"+timestamp,create_date:create_date,content:content,title:title,folder:folder,date:date,day:dayEng[day],time:time,month:monthEnglish[month]};
 			console.log(data);

@@ -7,7 +7,7 @@ var db_obj;
    request.onsuccess = function (e) {
       db_obj = e.target.result;
    };
-   request.onupgradeneeded = function (e) {
+   request.onupgradeneeded = function (e) {//版本不一致时调用onupgradeneeded
       var thisDB = e.target.result;
       if (!thisDB.objectStoreNames.contains("diary")) {
          var objStore = thisDB.createObjectStore("diary", {keyPath: "id", autoIncrement: true});
@@ -20,9 +20,11 @@ var db_obj;
       }
    };
 })();
+
 function closeDB() {
    db_obj.close();
 }
+
 function deleteDB() {
    indexedDB.deleteDatabase('mydiary');
 }
@@ -127,38 +129,7 @@ function getDataById(id, cb) {
       }
    }
 }
-function checkMonthContent(id, cb) {//检测month文件夹是否有内容
-indexedDB.open('mydiary', 1).onsuccess = function (e) {
-   db_obj = e.target.result;
-   var transaction = db_obj.transaction("diary", 'readwrite');
-   transaction.oncomplete = function () {
-      console.log("transaction complete");
-   };
-   transaction.onerror = function (event) {
-      console.dir(event)
-   };
-   var objectStore = transaction.objectStore("diary");
-   var request = objectStore.index("folder").get(id);
-   request.onsuccess = function (e) {
-      if (cb) {
-         cb({
-            error: 0,
-            data : e.target.result,
-            year: id.substring(0,4),
-            month: id.substring(4,6),
-            id: id
-         })
-      }
-   };
-   request.onerror = function (e) {
-      if (cb) {
-         cb({
-            error: 1
-         })
-      }
-   }
-   };
-}
+
 function getDataAll(table, cb) {//按创建时间排列
 	indexedDB.open('mydiary', 1).onsuccess = function (e) {
    db_obj = e.target.result;
@@ -185,32 +156,7 @@ function getDataAll(table, cb) {//按创建时间排列
    };
    };
 }
-function getMDList(cb) {//按修改日期排列
-	indexedDB.open('mydiary', 1).onsuccess = function (e) {
-   db_obj = e.target.result;
-   var transaction = db_obj.transaction("diary", 'readonly');
-   transaction.oncomplete = function () {
-      console.log("transaction complete");
-   };
-   transaction.onerror = function (event) {
-      console.dir(event)
-   };
-   var objectStore = transaction.objectStore("diary");
-   var rowData = [];
-   objectStore.index("modify_date").openCursor(IDBKeyRange.lowerBound(0)).onsuccess = function (event) {
-      var cursor = event.target.result;
-      if (!cursor && cb) {
-         cb({
-            error: 0,
-            data : rowData
-         });
-         return;
-      }
-      rowData.push(cursor.value);
-      cursor.continue();
-   };
-   };
-}
+
 
 function getDiaryBySearch(keywords, cb) {
 	indexedDB.open('mydiary', 1).onsuccess = function (e) {
@@ -257,34 +203,7 @@ function searchString(keyword){
        }
    };
 }
-function getFirstCreateDate(cb) {
-	indexedDB.open('mydiary', 1).onsuccess = function (e) {
-   db_obj = e.target.result;
-   var transaction = db_obj.transaction("diary", 'readwrite');
-   transaction.oncomplete = function () {
-      console.log("transaction complete");
-   };
-   transaction.onerror = function (event) {
-      console.dir(event)
-   };
-   var objectStore = transaction.objectStore("diary");
-   var rowData;
-   objectStore.openCursor(IDBKeyRange.lowerBound(0)).onsuccess = function (event) {
-      var cursor = event.target.result;
-      if (!cursor) {
-         if (cb) {
-            cb({
-               error: 0,
-               data : rowData
-            })
-         }
-         return;
-      }
-      rowData=cursor.value;
-      cursor.continue();
-   };
-   };
-}
+
 function getDataByPager(start, end, cb) {
    var transaction = db_obj.transaction("diary", 'readwrite');
    transaction.oncomplete = function () {
@@ -309,6 +228,7 @@ function getDataByPager(start, end, cb) {
       cursor.continue();
    };
 }
+
 function updateData(id, updateData, cb) {
    var transaction = db_obj.transaction("diary", 'readwrite');
    transaction.oncomplete = function () {
