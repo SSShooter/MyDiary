@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>#edit{height:500px;width:500px;border:1px solid red;}</style>
+
+    <script src="lib/jquery.min.js"></script>
+</head>
+<body>
+    <div id="edit" contenteditable></div>
+    <button id="sendEmoji">发送表情</button>
+    <script>
+        var sendEmoji = document.getElementById('sendEmoji')
+        var lastEditRange;
+        var range,textNode,rangeStartOffset;
+        // 编辑框点击事件
+        document.getElementById('edit').onclick = function() {
+            // 获取选定对象
+            var selection = getSelection()
+            // 设置最后光标对象
+            lastEditRange = selection.getRangeAt(0)
+        }
+
+        // 编辑框按键事件
+        document.getElementById('edit').onkeyup = function() {
+            // 获取选定对象
+            var selection = getSelection()
+            // 设置最后光标对象
+            lastEditRange = selection.getRangeAt(0)
+        }
+
+        // 表情点击事件
+        document.getElementById('sendEmoji').onclick = function() {
+            // 获取编辑框对象
+            var edit = document.getElementById('edit')
+            // 编辑框设置焦点
+            edit.focus()
+            // 获取选定对象
+            var selection = getSelection()
+            // 判断是否有最后光标对象存在
+            if (lastEditRange) {
+                // 存在最后光标对象，选定对象清除所有光标并添加最后光标还原之前的状态
+                selection.removeAllRanges()
+                selection.addRange(lastEditRange)
+            }
+            // 如果是文本节点则先获取光标对象
+            range = selection.getRangeAt(0)
+            // 获取光标对象的范围界定对象，一般就是textNode对象
+            textNode = range.startContainer;
+            // 获取光标位置
+            rangeStartOffset = range.startOffset;
+            // 文本节点在光标位置处插入新的表情内容
+            if(rangeStartOffset){
+                $tn = $(textNode);
+                $tn.after('<div><br></div><div><img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3685818724,170475022&fm=58"/></div>');
+            }else{
+                $tn = $(textNode);
+                $tn.html('<div><br></div><div><img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3685818724,170475022&fm=58"/></div>');
+            }
+        }
+    </script>
+</body>
+</html>
