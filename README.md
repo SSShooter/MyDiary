@@ -9,6 +9,8 @@
 ![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/02.png)
 ![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/03.png)
 ![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/04.png)
+![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/08.png)
+![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/09.png)
 
 # 功能测试
 ![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/05.png)
