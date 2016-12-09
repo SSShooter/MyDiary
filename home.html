@@ -64,6 +64,40 @@
 		.item .total, .total > .iconfont{
 			font-size: 10px;
 		}
+		footer{
+			position: fixed;
+			width: 100vw;
+			height: 44px;
+			background-color: #fff;
+			border-top: 1px #CACACA solid;
+			bottom: 0;
+		}
+		footer input{
+			border: none;
+			border-radius: 10px;
+			background-color: #5A95BA;
+			width: 70%;
+			vertical-align:middle;
+			position: relative;
+			margin-left: 10px;
+			margin-top: 6px;
+			line-height: 28px;
+		}
+		footer .iconfont{
+			vertical-align: middle; 
+			line-height: 44px;
+			font-size: 25px;
+			color: #5A95BA;
+		}
+		footer .icon-search{
+			position: absolute;
+			color: #fff;
+			left: 10px;
+		}
+		footer .icon-setting{
+			position: absolute;
+			right: 10px;
+		}
 	</style>
 </head>
 <body>
@@ -87,20 +121,42 @@
 				<span>Diary</span>
 				<span class="total pull-right">20<i class="iconfont icon-xiayige"></i></span>
 			</div>
+			<div class="item" onclick="location='Entries.html'">
+				<i class="iconfont icon-book"></i>
+				<span>みつばのにっき</span>
+				<span class="total pull-right">20<i class="iconfont icon-xiayige"></i></span>
+			</div>
 			<div class="item">
 				<i class="iconfont icon-alert"></i>
 				<span>ゼッタイ禁止</span>
 				<span class="total pull-right">20<i class="iconfont icon-xiayige"></i></span>
 			</div>
+
 			<div class="item">
 				<i class="iconfont icon-alert"></i>
-				<span>禁止事項</span>
+				<span>行きたいおみせメモ</span>
 				<span class="total pull-right">20<i class="iconfont icon-xiayige"></i></span>
 			</div>
 		</div>
 		<footer>
-			
+			<input type="text" name="search" />
+			<i class="iconfont icon-search"></i>
+			<i class="iconfont icon-setting"></i>
 		</footer>
+		<script type="text/javascript" src="js/indexeddb.js"></script>
+		<script type="text/javascript">
+			getDataAll("list", process);
+			function process(rowdata){
+		    	var data = rowdata.data;
+		    	var monthDivision;
+		    	console.log(data);
+		    	for(var i = 0;i<data.length;i++){
+		    		var item = '<div class="item"><i class="iconfont icon-alert"></i><span>禁止事項</span><span class="total pull-right">20<i class="iconfont icon-xiayige"></i></span></div>';
+		    		$("#main").prepend(item);		    		
+		    	}
+		    	// $("#loader").velocity({opacity:0},{display:"none"});
+		    }
+		</script>
 	</div>
 </body>
 </html>

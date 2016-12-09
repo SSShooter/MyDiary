@@ -1,10 +1,10 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1481176035204'); /* IE9*/
-  src: url('iconfont.eot?t=1481176035204#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.woff?t=1481176035204') format('woff'), /* chrome, firefox */
-  url('iconfont.ttf?t=1481176035204') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1481176035204#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1481297156892'); /* IE9*/
+  src: url('iconfont.eot?t=1481297156892#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1481297156892') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1481297156892') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1481297156892#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -17,6 +17,8 @@
 }
 
 .icon-music:before { content: "\e601"; }
+
+.icon-setting:before { content: "\e602"; }
 
 .icon-book:before { content: "\e605"; }
 
@@ -41,6 +43,8 @@
 .icon-save:before { content: "\ecea"; }
 
 .icon-xiayige:before { content: "\e694"; }
+
+.icon-search:before { content: "\e60f"; }
 
 .icon-smile-copy:before { content: "\e61b"; }
 
