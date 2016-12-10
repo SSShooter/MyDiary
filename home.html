@@ -76,12 +76,14 @@
 			border: none;
 			border-radius: 10px;
 			background-color: #5A95BA;
+			color: #fff;
 			width: 70%;
 			vertical-align:middle;
 			position: relative;
 			margin-left: 10px;
 			margin-top: 6px;
 			line-height: 28px;
+			padding-left: 28px;
 		}
 		footer .iconfont{
 			vertical-align: middle; 
@@ -98,6 +100,58 @@
 			position: absolute;
 			right: 10px;
 		}
+
+		#search-result{
+			display: none;
+			background-color: rgba(0,0,0,.5);
+			position: absolute;
+			height: calc(100vh - 44px);
+			width: 100vw;
+			top: 0;left: 0;
+			padding-top: 20px;
+			overflow: scroll;
+		}
+		#search-result .item{
+			height: 80px;
+			background-color: #fff;
+			border-radius: 6px;
+			margin-bottom: 10px;
+			color: #5A95BA;
+		}
+		.date-and-week{
+			padding-top: 10px;
+			height: 60px;
+			width: 60px;
+			text-align: center;
+		}
+		.date-and-week .date{
+			font-size: 40px;
+			line-height: 40px;
+			margin-bottom: 0;
+		}
+		.content{
+			padding-top: 14px;
+		}
+		.content p{
+			margin-bottom: 0;
+		}
+		.content .create_time{
+			font-size: 10px;
+		}
+		.content .description{
+			font-size: 10px;
+		}
+		.state{
+			padding-right: 10px;
+			padding-top: 14px;
+		}
+		.state i{
+			margin: 0 2px;
+		}
+		.state p{
+			text-align: right;
+			font-size: 20px;
+		}
 	</style>
 </head>
 <body>
@@ -108,54 +162,64 @@
 				<span class="nickname">SSShooter</span>
 				<span class="realname">zhoudejie</span>
 			</div>
-			
 		</header>
-		<div id="main">
-			<div class="item">
-				<i class="iconfont icon-phone"></i>
-				<span>緊急時以外かけちゃダメ</span>
-				<span class="total pull-right">20<i class="iconfont icon-xiayige"></i></span>
-			</div>
-			<div class="item" onclick="location='Entries.html'">
-				<i class="iconfont icon-book"></i>
-				<span>Diary</span>
-				<span class="total pull-right">20<i class="iconfont icon-xiayige"></i></span>
-			</div>
-			<div class="item" onclick="location='Entries.html'">
-				<i class="iconfont icon-book"></i>
-				<span>みつばのにっき</span>
-				<span class="total pull-right">20<i class="iconfont icon-xiayige"></i></span>
-			</div>
-			<div class="item">
-				<i class="iconfont icon-alert"></i>
-				<span>ゼッタイ禁止</span>
-				<span class="total pull-right">20<i class="iconfont icon-xiayige"></i></span>
-			</div>
-
-			<div class="item">
-				<i class="iconfont icon-alert"></i>
-				<span>行きたいおみせメモ</span>
-				<span class="total pull-right">20<i class="iconfont icon-xiayige"></i></span>
-			</div>
+		<div id="main"></div>
+		<div id="search-result" class="container">
+			
 		</div>
 		<footer>
-			<input type="text" name="search" />
+			<input type="text" name="search" id="search" />
 			<i class="iconfont icon-search"></i>
 			<i class="iconfont icon-setting"></i>
 		</footer>
 		<script type="text/javascript" src="js/indexeddb.js"></script>
 		<script type="text/javascript">
-			getDataAll("list", process);
+			var data = [
+				{type:"phone",count:0 ,icon:"phone",name:"緊急時以外かけちゃダメ"},
+				{type:"diary",count:0 ,icon:"book",name:"Diary"},
+				{type:"diary",count:0 ,icon:"book",name:"みつばのにっき"},
+				{type:"list" ,count:0,icon:"alert",name:"ゼッタイ禁止"},
+				{type:"list" ,count:0,icon:"alert",name:"行きたいおみせメモ"}
+			];
+			getDataAll("menu", process);
 			function process(rowdata){
 		    	var data = rowdata.data;
 		    	var monthDivision;
 		    	console.log(data);
 		    	for(var i = 0;i<data.length;i++){
-		    		var item = '<div class="item"><i class="iconfont icon-alert"></i><span>禁止事項</span><span class="total pull-right">20<i class="iconfont icon-xiayige"></i></span></div>';
-		    		$("#main").prepend(item);		    		
+		    		console.log(data[i].type + ' ' + data[i].folder_id);
+		    		var item = '<div class="item" id="'+ data[i].type+'_'+data[i].folder_id +'"><i class="iconfont icon-'+ data[i].icon +'"></i><span>'+ data[i].name +'</span><span class="total pull-right">'+ data[i].count +'<i class="iconfont icon-xiayige"></i></span></div>';
+		    		$("#main").append(item);		    		
 		    	}
-		    	// $("#loader").velocity({opacity:0},{display:"none"});
 		    }
+		    $('#main').on('click','.item',function(){
+		    	var type = $(this).attr('id');
+		    	type = type.split("_");
+		    	if (type[0]==='diary') {
+		    		location = 'Entries.html';
+		    	}else if(type[0]==='list'){
+		    		location = 'list.html';
+		    	}
+		    	localStorage.setItem('folder', type[1]);
+		    });
+		    $('#search').on('input',function(e){ 
+		    	var input_content = $(this).val();
+			    if(input_content){
+			    	$('#search-result').fadeIn();
+			    	var items = '';
+					searchString($(this).val(),function(data){
+						for(var i = 0;i<data.length;i++){
+				    		var item = '<div id="'+data[i].id+'" data-toggle="modal" data-target="#myModal" class="item"><div class="date-and-week pull-left"><p class="date">'+data[i].date+'</p><p class="week">'+data[i].day+'</p></div><div class="content pull-left"><p class="create_time">'+data[i].time+'</p><p class="title">'+data[i].title+'</p><p class="description">'+data[i].description+'</p></div><div class="state pull-right"><i class="iconfont icon-qing"></i><i class="iconfont icon-smile-copy"></i><i class="iconfont icon-biaoqian"></i></div></div>';
+				    		items+=item;
+				    	}
+				    	$("#search-result").html(items);
+					});
+			    }else{
+			    	$('#search-result').fadeOut();
+			    }
+			    	
+			});  
+			    
 		</script>
 	</div>
 </body>

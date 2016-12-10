@@ -36,6 +36,7 @@
 			border-radius: 6px;
 			margin-bottom: 10px;
 			color: #5A95BA;
+			opacity: .8;
 		}
 		.month-item{
 			line-height: 60px;
@@ -134,6 +135,7 @@
 		.modal-body{
 			background-color: #fff;
 			height: calc(100% - 180px);
+			overflow: scroll;
 		}
 		.modal-footer{
 			background-color: #5A95BA;
@@ -255,35 +257,33 @@
 	<script type="text/javascript" src="js/indexeddb.js"></script>
 	<script type="text/javascript">
 		$(".app").fadeIn('slow');
-		getDataAll("diary", process);
+		var folder = localStorage.getItem("folder");
+		getDiaryBySearch("diary", folder, process);
 		function process(rowdata){
 	    	var data = rowdata.data;
 	    	var monthDivision;
 	    	console.log(data);
 	    	$('.total').html(data.length+' Entries');
 	    	for(var i = 0;i<data.length;i++){
-	    		var item = '<div id="'+data[i].id+'" data-toggle="modal" data-target="#myModal" class="item"><div class="date-and-week pull-left"><p class="date">'+data[i].date+'</p><p class="week">'+data[i].day+'</p></div><div class="content pull-left"><p class="create_time">'+data[i].time+'</p><p class="title">'+data[i].title+'</p><p class="description"></p></div><div class="state pull-right"><i class="iconfont icon-qing"></i><i class="iconfont icon-smile-copy"></i><i class="iconfont icon-biaoqian"></i></div></div>';
+	    		var item = '<div id="'+data[i].id+'" data-toggle="modal" data-target="#myModal" class="item"><div class="date-and-week pull-left"><p class="date">'+data[i].date+'</p><p class="week">'+data[i].day+'</p></div><div class="content pull-left"><p class="create_time">'+data[i].time+'</p><p class="title">'+data[i].title+'</p><p class="description">'+data[i].description+'</p></div><div class="state pull-right"><i class="iconfont icon-qing"></i><i class="iconfont icon-smile-copy"></i><i class="iconfont icon-biaoqian"></i></div></div>';
 	    		$("#main").prepend(item);
-	    		console.log(data[i+1]);
+	    		monthDivision = data[i].monthNum;
 	    		if(data[i+1]){
 	    			if (data[i].month!==data[i+1].month) {
-		    			monthDivision = data[i].month;
 		    			$("#main").prepend('<div class="month-item">'+monthDivision+'</div>');
 		    		}
 	    		}else{
-	    			monthDivision = data[i].month;
 		    		$("#main").prepend('<div class="month-item">'+monthDivision+'</div>');
 	    		}
 	    		
 	    	}
-	    	// $("#loader").velocity({opacity:0},{display:"none"});
 	    }
 	    $('#main').on('click','.item',function(){
 	    	var id = $(this).attr('id');
 	    	read(id);
 	    });
 	    function read(id){
-	    	getDataById(id,loadDiary);
+	    	getDataById('diary',id,loadDiary);
 	    }
 	    function loadDiary(ret){
 			var data = ret.data;
@@ -292,7 +292,6 @@
 			$('.time').html(data.time);
 			$('.reading-title').html(data.title);
 			$('.reading-content').html(data.content);
-
 		}
 		
 	</script>

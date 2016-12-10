@@ -17,6 +17,12 @@ var db_obj;
       if (!thisDB.objectStoreNames.contains("list")) {
          var objStore = thisDB.createObjectStore("list", {keyPath: "id", autoIncrement: true});
          objStore.createIndex("create_date", "create_date", {unique: false});
+         objStore.createIndex("folder", "folder", {unique: false});
+      }
+      if (!thisDB.objectStoreNames.contains("menu")) {
+         var objStore = thisDB.createObjectStore("menu", {keyPath: "folder_id", autoIncrement: true});
+         objStore.createIndex("create_date", "create_date", {unique: false});
+         objStore.createIndex("type", "type", {unique: false});
       }
    };
 })();
@@ -55,15 +61,15 @@ function addData(table, data, cb) {
    }
    
 }
-function addmData(mdata, cb) {
-   var transaction = db_obj.transaction("diary", 'readwrite');
+function addmData(table, mdata, cb) {
+   var transaction = db_obj.transaction(table, 'readwrite');
    transaction.oncomplete = function () {
       console.log("transaction complete");
    };
    transaction.onerror = function (event) {
       console.dir(event)
    };
-   var objectStore = transaction.objectStore("diary");
+   var objectStore = transaction.objectStore(table);
    for(var c = 0;c<mdata.length;c++){
       var request = objectStore.add(mdata[c]);
       request.onerror = function (e) {
@@ -102,8 +108,31 @@ function deleteData(id, cb) {
    }
 }
 
-function getDataById(id, cb) {
-   var transaction = db_obj.transaction("diary", 'readwrite');
+function countTotal(type, folder_id){
+   db_obj = e.target.result;
+   var transaction = db_obj.transaction(type, 'readwrite');
+   transaction.oncomplete = function () {
+      console.log("transaction complete");
+   };
+   transaction.onerror = function (event) {
+      console.dir(event)
+   };
+   var objectStore = transaction.objectStore(type);
+   var boundKeyRange = IDBKeyRange.only(folder_id);
+   var rowData=[];
+   objectStore.index("folder").openCursor(boundKeyRange).onsuccess = function (event) {
+      var cursor = event.target.result;
+      if (!cursor) {
+         console.log(rowData.length);
+         return ;
+      }
+      rowData.push(cursor.value);
+      cursor.continue();
+   };
+}
+
+function getDataById(table, id, cb) {
+   var transaction = db_obj.transaction(table, 'readwrite');
    transaction.oncomplete = function () {
       console.log("transaction complete");
    };
@@ -111,7 +140,7 @@ function getDataById(id, cb) {
       console.dir(event)
    };
 
-   var objectStore = transaction.objectStore("diary");
+   var objectStore = transaction.objectStore(table);
    var request = objectStore.get(id);
    request.onsuccess = function (e) {
       if (cb) {
@@ -130,7 +159,7 @@ function getDataById(id, cb) {
    }
 }
 
-function getDataAll(table, cb) {//按创建时间排列
+function getDataAll(table, cb) {
 	indexedDB.open('mydiary', 1).onsuccess = function (e) {
    db_obj = e.target.result;
    var transaction = db_obj.transaction(table, 'readonly');
@@ -158,20 +187,20 @@ function getDataAll(table, cb) {//按创建时间排列
 }
 
 
-function getDiaryBySearch(keywords, cb) {
+function getDiaryBySearch(table, keywords, cb) {
 	indexedDB.open('mydiary', 1).onsuccess = function (e) {
    db_obj = e.target.result;
-   var transaction = db_obj.transaction("diary", 'readwrite');
+   var transaction = db_obj.transaction(table, 'readwrite');
    transaction.oncomplete = function () {
       console.log("transaction complete");
    };
    transaction.onerror = function (event) {
       console.dir(event)
    };
-   var objectStore = transaction.objectStore("diary");
+   var objectStore = transaction.objectStore(table);
    var boundKeyRange = IDBKeyRange.only(keywords);
    var rowData=[];
-   objectStore.index("diary").openCursor(boundKeyRange).onsuccess = function (event) {
+   objectStore.index("folder").openCursor(boundKeyRange).onsuccess = function (event) {
       var cursor = event.target.result;
       if (!cursor) {
          if (cb) {
@@ -187,19 +216,21 @@ function getDiaryBySearch(keywords, cb) {
    };
    };
 }
-function searchString(keyword){
+function searchString(keyword,cb){
    var keyword = keyword;
    var transaction = db_obj.transaction("diary", "readwrite");
    var objectStore = transaction.objectStore("diary");
    var request = objectStore.openCursor();
+   var result = [];
    request.onsuccess = function(event) {
        var cursor = event.target.result;
        if (cursor) {
            if (cursor.value.title.indexOf(keyword) !== -1 ||cursor.value.content.indexOf(keyword) !== -1) {                
-               console.log("We found a row with value: " + JSON.stringify(cursor.value));
+               result.push(cursor.value);
            }  
-
            cursor.continue();          
+       }else{
+         cb(result);
        }
    };
 }
@@ -229,15 +260,15 @@ function getDataByPager(start, end, cb) {
    };
 }
 
-function updateData(id, updateData, cb) {
-   var transaction = db_obj.transaction("diary", 'readwrite');
+function updateData(table, id, updateData, cb) {
+   var transaction = db_obj.transaction(table, 'readwrite');
    transaction.oncomplete = function () {
       console.log("transaction complete");
    };
    transaction.onerror = function (event) {
       console.dir(event)
    };
-   var objectStore = transaction.objectStore("diary");
+   var objectStore = transaction.objectStore(table);
    var request = objectStore.get(id);
    request.onsuccess = function (e) {
       var thisDB = e.target.result;
@@ -258,5 +289,45 @@ function updateData(id, updateData, cb) {
             error: 1
          })
       }
+   }
+}
+
+function plus(table, id) {
+   var transaction = db_obj.transaction(table, 'readwrite');
+   transaction.oncomplete = function () {
+      console.log("transaction complete");
+   };
+   transaction.onerror = function (event) {
+      console.dir(event)
+   };
+   var objectStore = transaction.objectStore(table);
+   var request = objectStore.get(id);
+   request.onsuccess = function (e) {
+      var thisDB = e.target.result;
+      thisDB['count'] = thisDB['count']+1;
+      objectStore.put(thisDB);
+   };
+   request.onerror = function (e) {
+      alert("+error!!!")
+   }
+}
+
+function minus(table, id) {
+   var transaction = db_obj.transaction(table, 'readwrite');
+   transaction.oncomplete = function () {
+      console.log("transaction complete");
+   };
+   transaction.onerror = function (event) {
+      console.dir(event)
+   };
+   var objectStore = transaction.objectStore(table);
+   var request = objectStore.get(id);
+   request.onsuccess = function (e) {
+      var thisDB = e.target.result;
+      thisDB['count'] = thisDB['count']-1;
+      objectStore.put(thisDB);
+   };
+   request.onerror = function (e) {
+      alert("-error!!!")
    }
 }
