@@ -13,9 +13,11 @@
 		/*程序样式表*/
 		header{
 			/*padding for导航栏 22px + 分割用6px*/
+			position: fixed;
+			top: 0;
+			z-index: 999;
 			padding-top: 28px;
 			border-bottom: 1px solid #5A95BA;
-			position: fixed;
 			width: 100vw;
 			background-color: #fff;
 		}
@@ -27,7 +29,7 @@
 			background-image: url('52502973_p0.png');
 			background-repeat: repeat;
 			min-height: 100vh;
-			padding-top:95px; 
+			padding-top:89px; 
 			padding-bottom: 44px;
 		}
 		.item{
@@ -257,6 +259,7 @@
 	<script type="text/javascript" src="js/indexeddb.js"></script>
 	<script type="text/javascript">
 		$(".app").fadeIn('slow');
+		var demoDate = [{date:11,day:'Sun',time:'16:21',title:'バイト'}];
 		var folder = localStorage.getItem("folder");
 		getDiaryBySearch("diary", folder, process);
 		function process(rowdata){
@@ -265,7 +268,7 @@
 	    	console.log(data);
 	    	$('.total').html(data.length+' Entries');
 	    	for(var i = 0;i<data.length;i++){
-	    		var item = '<div id="'+data[i].id+'" data-toggle="modal" data-target="#myModal" class="item"><div class="date-and-week pull-left"><p class="date">'+data[i].date+'</p><p class="week">'+data[i].day+'</p></div><div class="content pull-left"><p class="create_time">'+data[i].time+'</p><p class="title">'+data[i].title+'</p><p class="description">'+data[i].description+'</p></div><div class="state pull-right"><i class="iconfont icon-qing"></i><i class="iconfont icon-smile-copy"></i><i class="iconfont icon-biaoqian"></i></div></div>';
+	    		var item = '<div id="'+data[i].diary_id+'" data-toggle="modal" data-target="#myModal" class="item"><div class="date-and-week pull-left"><p class="date">'+data[i].date+'</p><p class="week">'+data[i].day+'</p></div><div class="content pull-left"><p class="create_time">'+data[i].time+'</p><p class="title">'+data[i].title+'</p><p class="description">'+data[i].description+'</p></div><div class="state pull-right"><i class="iconfont icon-qing"></i><i class="iconfont icon-smile-copy"></i><i class="iconfont icon-biaoqian"></i></div></div>';
 	    		$("#main").prepend(item);
 	    		monthDivision = data[i].monthNum;
 	    		if(data[i+1]){

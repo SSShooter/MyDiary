@@ -144,14 +144,19 @@
 			var title = $(".diary-title").val()||'No Title';
 			//var content = document.getElementById("diary-content").value.replace(/\r/ig, "<br/>").replace(/\n/ig, "<br/>");//用jquery的.val()不能识别回车
 			var content = $("#diary-content").html();
-			var getFirstSentence = content.split("<");
-			var hm = $('.show-date .time .hm').html();//for hour Minute
-			var timestamp = new Date().getTime();
-			var create_date = getNowFormatDate();
-			var data = {id:"id"+timestamp,create_date:create_date,content:content,title:title,folder:folder,date:date,day:dayEng[day],time:time,month:monthEnglish[month],monthNum:month+1,type:"diary",description: getFirstSentence[0]};
-			console.log(data);
-			addData("diary",data);
-			plus("menu", Number(folder));
+			if(content){
+				var getFirstSentence = content.split("<");
+				var hm = $('.show-date .time .hm').html();//for hour Minute
+				var timestamp = new Date().getTime();
+				var create_date = getNowFormatDate();
+				var data = {diary_id:"did"+timestamp,create_date:create_date,content:content,title:title,folder:folder,date:date,day:dayEng[day],time:time,month:monthEnglish[month],monthNum:month+1,type:"diary",description: getFirstSentence[0]};
+				console.log(data);
+				addData("diary",data);
+				plus(folder);
+				setTimeout("location='Entries.html'",500);
+			}else{
+				alert("~content empty~");
+			}
 		}
 
 		function getNowFormatDate() {

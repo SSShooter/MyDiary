@@ -10,12 +10,12 @@ var db_obj;
    request.onupgradeneeded = function (e) {//版本不一致时调用onupgradeneeded
       var thisDB = e.target.result;
       if (!thisDB.objectStoreNames.contains("diary")) {
-         var objStore = thisDB.createObjectStore("diary", {keyPath: "id", autoIncrement: true});
+         var objStore = thisDB.createObjectStore("diary", {keyPath: "diary_id"});
          objStore.createIndex("create_date", "create_date", {unique: false});
          objStore.createIndex("folder", "folder", {unique: false});
       }
       if (!thisDB.objectStoreNames.contains("list")) {
-         var objStore = thisDB.createObjectStore("list", {keyPath: "id", autoIncrement: true});
+         var objStore = thisDB.createObjectStore("list", {keyPath: "list_id"});
          objStore.createIndex("create_date", "create_date", {unique: false});
          objStore.createIndex("folder", "folder", {unique: false});
       }
@@ -81,21 +81,21 @@ function addmData(table, mdata, cb) {
       }
    }
 }
-function deleteData(id, cb) {
-   var transaction = db_obj.transaction("diary", 'readwrite');
+function deleteData(table, id, cb) {
+   var transaction = db_obj.transaction(table, 'readwrite');
    transaction.oncomplete = function () {
       console.log("transaction complete");
    };
    transaction.onerror = function (event) {
       console.dir(event)
    };
-   var objectStore = transaction.objectStore("diary");
-   var request = objectStore.delete(parseInt(id));
+   var objectStore = transaction.objectStore(table);
+   var request = objectStore.delete(id);
    request.onsuccess = function (e) {
       if (cb) {
          cb({
             error: 0,
-            data : parseInt(id)
+            data : id
          })
       }
    };
@@ -292,16 +292,16 @@ function updateData(table, id, updateData, cb) {
    }
 }
 
-function plus(table, id) {
-   var transaction = db_obj.transaction(table, 'readwrite');
+function plus(folder_id) {
+   var transaction = db_obj.transaction('menu', 'readwrite');
    transaction.oncomplete = function () {
       console.log("transaction complete");
    };
    transaction.onerror = function (event) {
       console.dir(event)
    };
-   var objectStore = transaction.objectStore(table);
-   var request = objectStore.get(id);
+   var objectStore = transaction.objectStore('menu');
+   var request = objectStore.get(Number(folder_id));
    request.onsuccess = function (e) {
       var thisDB = e.target.result;
       thisDB['count'] = thisDB['count']+1;
@@ -312,16 +312,16 @@ function plus(table, id) {
    }
 }
 
-function minus(table, id) {
-   var transaction = db_obj.transaction(table, 'readwrite');
+function minus(folder_id) {
+   var transaction = db_obj.transaction('menu', 'readwrite');
    transaction.oncomplete = function () {
       console.log("transaction complete");
    };
    transaction.onerror = function (event) {
       console.dir(event)
    };
-   var objectStore = transaction.objectStore(table);
-   var request = objectStore.get(id);
+   var objectStore = transaction.objectStore('menu');
+   var request = objectStore.get(Number(folder_id));
    request.onsuccess = function (e) {
       var thisDB = e.target.result;
       thisDB['count'] = thisDB['count']-1;

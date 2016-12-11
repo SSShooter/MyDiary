@@ -17,6 +17,7 @@
 			width: 100vw;
 			background-color: #5A95BA;
 			color: #FFF;
+			z-index: 999;
 		}
 		header .title{
 			font-size: 25px;
@@ -46,11 +47,13 @@
 			line-height: 60px;
 			word-wrap: break-word;
 		}
-		#main ul li span{
-			word-wrap: break-word;
+		#main ul li input{
+			line-height: 30px;
+			border: none;
 		}
-		del{
+		.del{
 			opacity: 0.5;
+			text-decoration: line-through;
 		}
 	</style>
 </head>
@@ -62,13 +65,74 @@
 		</header>
 		<div id="main" class="container">
 			<ul>
-				<li>お風呂ぜっっったい禁止！！！！</li>
-				<li>体は見ない/触らない！！</li>
-				<li>脚をひらくな！</li>
-				<li><del>男子に触るな！<del></li>
-				<li>女子にも触るな！</li>
 			</ul>
 		</div>
 	</div>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript" src="js/indexeddb.js"></script>
+	<script type="text/javascript" src="lib/alloy_finger.js"></script>
+	<script type="text/javascript">
+		var folder = localStorage.getItem("folder");
+		var demoDate = [
+			{list_id:1,content:'お風呂ぜっっったい禁止！！！！',folder:4,type:'list'},
+			{list_id:2,content:'体は見ない/触らない！！',folder:4,type:'list'},
+			{list_id:3,content:'脚をひらくな！',folder:4,type:'list'},
+			{list_id:4,content:'男子に触るな！',folder:4,type:'list'},
+			{list_id:5,content:'女子にも触るな！',folder:4,type:'list'}
+		];
+		getDiaryBySearch("list", folder, process);
+		function process(rowdata){
+	    	var data = rowdata.data;
+	    	var monthDivision;
+	    	console.log(data);
+	    	for(var i = 0;i<data.length;i++){
+	    		var item = '<li id="'+data[i].list_id+'">'+data[i].content+'</li>';
+	    		console.log(item);
+	    		$("ul").append(item);
+	    	}
+	    	delInit();
+	    }
+	    $('li').not('.new').click(function() {
+	    	if ($(this).attr('class')==='del') {$(this).removeClass('del');}
+	    	else{$(this).addClass('del');}
+	    });
+	    var t = 0;
+	    $('.iconfont').click(function() {
+	    	if (t===0) {//new
+	    		$('ul').append('<li class="new-item"><input id="new"></li>'); 
+	    		$(this).removeClass('icon-qianbi').addClass('icon-book');
+	    		t=1;
+	    	}else{//save
+	    		var newvalue = $('#new').val(),
+	    		timestamp = new Date().getTime(),
+	    		list_id = 'lid'+timestamp;
+	    		var data = {list_id:list_id,content:newvalue,folder:folder,type:'list'};
+	    		newvalue = '<li id="'+ list_id +'">' + newvalue +'</li>';
+	    		addData("list",data);
+	    		plus(folder);
+	    		$("ul").append(newvalue);
+	    		$('.new-item').remove();
+	    		$(this).removeClass('icon-book').addClass('icon-qianbi');
+	    		t=0;
+	    		delInit();
+	    	}
+	    });
+
+	    function delInit(){
+	    	var item = document.getElementsByTagName('li');
+		    var tt;
+		    for(var i=0;i<item.length;i++){
+		    	new AlloyFinger(item[i], {
+		            longTap: function (e) {
+		            	var id = $(e.srcElement).attr('id');
+		            	$(e.srcElement).remove();
+		            	deleteData('list', id);
+		            	minus(folder);
+		            }
+		        });
+		    }
+	    }
+
+	</script>
 </body>
 </html>
