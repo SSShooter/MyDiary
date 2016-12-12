@@ -18,4 +18,10 @@
 # 功能测试
 ![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/05.png)
 ![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/07.png)
-![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/10.png)
+![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/10.png)  
+
+#新主题！
+![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/11.png)  
+![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/12.png)  
+![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/13.png)  
+![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/14.png)  
