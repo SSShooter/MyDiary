@@ -26,7 +26,7 @@
 			margin: 5px auto;
 		}
 		#main{
-			background-image: url('52502973_p0.png');
+			background-image: url('img/52502973_p0.png');
 			background-repeat: repeat;
 			min-height: 100vh;
 			padding-top:89px; 
@@ -259,6 +259,9 @@
 	<script type="text/javascript" src="js/indexeddb.js"></script>
 	<script type="text/javascript">
 		$(".app").fadeIn('slow');
+		if(localStorage.theme === 'mitsuha'){
+			$('head').append('<link rel="stylesheet" type="text/css" href="css/mitsuha.entries.css"><link rel="stylesheet" type="text/css" href="css/mitsuha.bs.css">');
+		}
 		var demoDate = [{date:11,day:'Sun',time:'16:21',title:'バイト'}];
 		var folder = localStorage.getItem("folder");
 		getDiaryBySearch("diary", folder, process);

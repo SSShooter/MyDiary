@@ -102,6 +102,9 @@
 	<script type="text/javascript" src="lib/alloy_finger.js"></script>
 	<script type="text/javascript">
 		$(".app").fadeIn('slow');
+		if(localStorage.theme === 'mitsuha'){
+			$('head').append('<link rel="stylesheet" type="text/css" href="css/mitsuha.calendar.css"><link rel="stylesheet" type="text/css" href="css/mitsuha.bs.css">');
+		}
 		// animate.css 拓展
 		$.fn.extend({
 		    animateCss: function (animationName, fn) {

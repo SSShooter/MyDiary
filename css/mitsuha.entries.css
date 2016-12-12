@@ -1,0 +1,9 @@
+.item{
+	color: #E88D83 !important;
+}
+#main{
+	background-image: url('../img/mitsuha.png') !important;
+}
+footer,.show-date, .modal-footer, .modal-footer .iconfont{
+	background-color: #E88D83 !important;
+}

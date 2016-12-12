@@ -36,7 +36,7 @@
 			overflow: hidden;
 		}
 		#main ul{
-			background-image: url('line.png');
+			background-image: url('img/line.png');
 			background-size:100vw 60px;
 			position: relative;
 			right: 10px;
@@ -60,7 +60,7 @@
 <body>
 	<div class="app">
 		<header>
-			<div class="title">ゼッタイ禁止</div>
+			<div class="title"></div>
 			<i class="iconfont icon-qianbi"></i>
 		</header>
 		<div id="main" class="container">
@@ -72,6 +72,11 @@
 	<script type="text/javascript" src="js/indexeddb.js"></script>
 	<script type="text/javascript" src="lib/alloy_finger.js"></script>
 	<script type="text/javascript">
+		$(".app").fadeIn('slow');
+		if(localStorage.theme === 'mitsuha'){
+			$('head').append('<link rel="stylesheet" type="text/css" href="css/mitsuha.list.css">');
+		}
+		$('.title').html(localStorage.folder_name);
 		var folder = localStorage.getItem("folder");
 		var demoDate = [
 			{list_id:1,content:'お風呂ぜっっったい禁止！！！！',folder:4,type:'list'},
@@ -100,7 +105,7 @@
 	    $('.iconfont').click(function() {
 	    	if (t===0) {//new
 	    		$('ul').append('<li class="new-item"><input id="new"></li>'); 
-	    		$(this).removeClass('icon-qianbi').addClass('icon-book');
+	    		$(this).removeClass('icon-qianbi').addClass('icon-gou');
 	    		t=1;
 	    	}else{//save
 	    		var newvalue = $('#new').val(),

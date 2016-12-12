@@ -1,0 +1,12 @@
+header, footer input{
+	background-color: #E88D83 !important;
+}
+footer .iconfont, #search-result .item{
+	color: #E88D83 !important;
+}
+footer .icon-search{
+	color: #fff !important;
+}
+#setting-div{
+	background-color: #E88D83 !important;
+}
