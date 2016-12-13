@@ -32,3 +32,6 @@ header{
 .modal-content{
 	border: none;
 }
+.form-control:focus{
+	border-color: #E88D83 !important;
+}
