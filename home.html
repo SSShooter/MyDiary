@@ -254,7 +254,7 @@
 	<div id="setting-div">
 		<i class="iconfont icon-tianjia" id="new" data-toggle="modal" data-target="#myModal"></i>
 		<i class="iconfont icon-zhuti" id="theme" onclick="changeTheme()"></i>
-		<i class="iconfont icon-about" id="about"></i>
+		<i class="iconfont icon-about" id="about" onClick="location='about.html'"></i>
 	</div>
 	<script type="text/javascript" src="js/indexeddb.js"></script>
 	<script type="text/javascript">
@@ -284,7 +284,7 @@
 	    	var folder_name = $(this).children('span').first().html();
 	    	type = type.split("_");
 	    	if (type[0]==='diary') {
-	    		location = 'Entries.html';
+	    		location = 'entries.html';
 	    	}else if(type[0]==='list'){
 	    		location = 'list.html';
 	    	}
