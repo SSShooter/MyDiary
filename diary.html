@@ -95,8 +95,8 @@
 		<header>
 			<div class="text-center">
 				<div class="btn-group btn-group-sm">
-					<button type="button" class="btn btn-default" onClick="location='Entries.html'">Entries</button>
-					<button type="button" class="btn btn-default" onClick="location='Calendar.html'">Calendar</button>
+					<button type="button" class="btn btn-default" onClick="location='entries.html'">Entries</button>
+					<button type="button" class="btn btn-default" onClick="location='calendar.html'">Calendar</button>
 					<button type="button" class="btn btn-default active">Diary</button>
 				</div>
 			</div>
@@ -156,7 +156,7 @@
 				console.log(data);
 				addData("diary",data);
 				plus(folder);
-				setTimeout("location='Entries.html'",500);
+				setTimeout("location='entries.html'",500);
 			}else{
 				alert("~content empty~");
 			}
