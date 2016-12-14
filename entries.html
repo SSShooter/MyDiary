@@ -59,9 +59,15 @@
 		}
 		.content{
 			padding-top: 14px;
+			width: calc(100% - 130px);
 		}
 		.content p{
 			margin-bottom: 0;
+		}
+		.content .title, .content .description{
+			width: 100%;
+			overflow:hidden; 
+			text-overflow:ellipsis;
 		}
 		.content .create_time{
 			font-size: 10px;
@@ -119,14 +125,6 @@
 			font-size: 15px;
 			line-height: 20px;
 		}
-		.reading-title{
-			font-size: 1.4em;
-			text-align: center;
-		}
-		.reading-content{
-			width: 90%;
-			margin: 10px auto;
-		}
 		.modal-content{
 			border-radius: 15px;
 			overflow:hidden;
@@ -138,6 +136,17 @@
 			background-color: #fff;
 			height: calc(100% - 180px);
 			overflow: scroll;
+		}
+		.reading-title{
+			font-size: 1.4em;
+			width: 80%;
+			word-wrap: break-word;
+			margin: auto;
+		}
+		.reading-content{
+			width: 90%;
+			margin: 10px auto;
+			word-wrap: break-word;
 		}
 		.modal-footer{
 			background-color: #5A95BA;
@@ -171,7 +180,6 @@
 				<div class="reading-content"></div>
 			</div>
 			<div class="modal-footer">
-				<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
 				<i class="iconfont icon-shenglve"></i>
 				<i class="iconfont icon-appxiugaiicon10"></i>
 				<i class="iconfont icon-camera"></i>
@@ -187,8 +195,8 @@
 			<div class="text-center">
 				<div class="btn-group btn-group-sm">
 					<button type="button" class="btn btn-default active">Entries</button>
-					<button type="button" class="btn btn-default" onClick="location='calendar.html'">Calendar</button>
-					<button type="button" class="btn btn-default" onClick="location='diary.html'">Diary</button>
+					<button type="button" class="btn btn-default" onClick="location.replace('calendar.html')">Calendar</button>
+					<button type="button" class="btn btn-default" onClick="location.replace('diary.html')">Diary</button>
 				</div>
 			</div>
 			<p id="logo" class="center-block">Diary</p>
@@ -298,8 +306,14 @@
 			$('.time').html(data.time);
 			$('.reading-title').html(data.title);
 			$('.reading-content').html(data.content);
+			$('.icon-shanchu').attr('id', data.diary_id);
 		}
-		
+		$('.icon-shanchu').click(function() {
+			minus(folder);
+			deleteData('diary', $(this).attr('id'), function(){
+				setTimeout("location.reload()",500);
+			});
+		});
 	</script>
 </body>
 </html>

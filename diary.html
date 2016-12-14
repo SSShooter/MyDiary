@@ -95,8 +95,8 @@
 		<header>
 			<div class="text-center">
 				<div class="btn-group btn-group-sm">
-					<button type="button" class="btn btn-default" onClick="location='entries.html'">Entries</button>
-					<button type="button" class="btn btn-default" onClick="location='calendar.html'">Calendar</button>
+					<button type="button" class="btn btn-default" onClick="location.replace('entries.html')">Entries</button>
+					<button type="button" class="btn btn-default" onClick="location.replace('calendar.html')">Calendar</button>
 					<button type="button" class="btn btn-default active">Diary</button>
 				</div>
 			</div>
@@ -117,7 +117,7 @@
 			<nav>
 				<i class="iconfont icon-camera"></i>
 				<i class="iconfont icon-save" onclick="save()"></i>
-				<i class="iconfont icon-cancel" onclick="appendPic()"></i>
+				<i class="iconfont icon-cancel"></i>
 			</nav>
 		</footer>
 	</div>
@@ -183,6 +183,11 @@
 		function appendPic(){
 			$("#diary-content").append('<img src="avatar.png" alt="avatar" class="img-circle" style="width:100%">');
 		}
+		window.onbeforeunload = function(e) {
+			var dialogText = 'Dialog text here';
+			e.returnValue = dialogText;
+			return dialogText;
+		};
 	</script>
 </body>
 </html>
