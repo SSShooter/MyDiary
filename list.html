@@ -91,9 +91,12 @@
 	    	var monthDivision;
 	    	console.log(data);
 	    	for(var i = 0;i<data.length;i++){
-	    		var item = '<li id="'+data[i].list_id+'">'+data[i].content+'</li>';
-	    		console.log(item);
-	    		$("ul").append(item);
+	    		var $item = $('<li id="'+data[i].list_id+'">'+data[i].content+'</li>');
+	    		if (!data[i].state) {
+	    			$item = $item.addClass('del');
+	    		}
+	    		console.log($item);
+	    		$("ul").append($item);
 	    	}
 	    	delInit();
 	    }
@@ -111,7 +114,7 @@
 	    		var newvalue = $('#new').val(),
 	    		timestamp = new Date().getTime(),
 	    		list_id = 'lid'+timestamp;
-	    		var data = {list_id:list_id,content:newvalue,folder:folder,type:'list'};
+	    		var data = {list_id:list_id,content:newvalue,folder:folder,type:'list',state:1};
 	    		newvalue = '<li id="'+ list_id +'">' + newvalue +'</li>';
 	    		addData("list",data);
 	    		plus(folder);
@@ -119,18 +122,51 @@
 	    		$('.new-item').remove();
 	    		$(this).removeClass('icon-book').addClass('icon-qianbi');
 	    		t=0;
-	    		delInit();
+	    		var $newOne = $('ul').children().last();
+	    		new AlloyFinger($newOne[0], {
+		    		tap: function (e){
+		            	var $this = $(e.srcElement),
+		            	id = $this.attr('id');
+		    			if ($this.attr('class')==='del') {
+		    				$this.removeClass('del');
+		    				updateData('list', id, {state:1});
+		    			}
+	    				else{
+	    					$this.addClass('del');
+	    					updateData('list', id, {state:0});
+	    				}
+		    		},
+		            longTap: function (e) {
+		            	var $this = $(e.srcElement),
+		            	id = $this.attr('id');
+		            	$this.remove();
+		            	deleteData('list', id);
+		            	minus(folder);
+		            }
+		        });
 	    	}
 	    });
 
 	    function delInit(){
 	    	var item = document.getElementsByTagName('li');
-		    var tt;
 		    for(var i=0;i<item.length;i++){
 		    	new AlloyFinger(item[i], {
+		    		tap: function (e){
+		    			var $this = $(e.srcElement),
+		            	id = $this.attr('id');
+		    			if ($this.attr('class')==='del') {
+		    				$this.removeClass('del');
+		    				updateData('list', id, {state:1});
+		    			}
+	    				else{
+	    					$this.addClass('del');
+	    					updateData('list', id, {state:0});
+	    				}
+		    		},
 		            longTap: function (e) {
-		            	var id = $(e.srcElement).attr('id');
-		            	$(e.srcElement).remove();
+		            	var $this = $(e.srcElement),
+		            	id = $this.attr('id');
+		            	$this.remove();
 		            	deleteData('list', id);
 		            	minus(folder);
 		            }

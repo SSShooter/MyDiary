@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>address book</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+	<script src="lib/jquery.min.js"></script>
+	<script src="bootstrap/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="icon/iconfont.css">
+	<link rel="stylesheet" type="text/css" href="css/custombs.css">
+	<style>
+		header{
+			padding-top: 22px;
+			height: 88px;
+			position: fixed;
+			width: 100vw;
+			color: #5A95BA;
+			background-color: #fff;
+		}
+		header .address-book-name{
+			text-align: center;
+		}
+		header .search-div{
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+		#search{
+			border: none;
+			border-radius: 10px;
+			background-color: #5A95BA;
+			color: #fff;
+			width: 85%;
+			vertical-align:middle;
+			position: relative;
+			line-height: 28px;
+			padding-left: 28px;
+			margin: 0 auto;
+		}
+		#add{
+			float: right;
+		}
+		#main{
+			padding-top: 88px; 
+			padding-bottom: 44px;
+			overflow: hidden;
+			background-color: #5A95BA;
+			min-height: 100vh;
+		}
+	</style>
+</head>
+<body>
+	<div class="app">
+		<header>
+			<div class="address-book-name">緊急時以外かけちゃダメ</div>
+			<div class="search-div">
+				<i class="iconfont icon-search"></i>
+				<input type="text" name="search" id="search" />
+			</div>
+			<i class="iconfont icon-tianjia" id="add"></i>
+		</header>
+		<div id="main">
+			
+		</div>
+	</div>
+</body>
+</html>
