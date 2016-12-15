@@ -1,6 +1,11 @@
 # MyDiary
-hybird app进度：  
-界面完成度：95%  
+progress  
+UI 95% complete  
+function 60% complete  
+data save with indexedDB  
+
+hybird app进度：   
+界面完成度：95%    
 功能完成度：60% 数据储存方式参考[之前写的日记应用](https://github.com/ssshooter/DAnote)   
 感谢[Calvin-Huang](https://github.com/Calvin-Huang/MyDiary)的设计图  
 虽然已经不少人在做了，但是作为一个程序员，还是要自己写一个才叫MyDiary嘛  
