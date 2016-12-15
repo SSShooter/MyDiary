@@ -20,7 +20,6 @@
 		header{
 			/*padding for导航栏*/
 			padding-top: 28px;
-			border-bottom: 1px solid #5A95BA;
 			position: fixed;
 			width: 100vw;
 			background-color: #fff;
@@ -184,7 +183,7 @@
 			$("#diary-content").append('<img src="avatar.png" alt="avatar" class="img-circle" style="width:100%">');
 		}
 		window.onbeforeunload = function(e) {
-			var dialogText = 'Dialog text here';
+			var dialogText = 'leaveing page without save';
 			e.returnValue = dialogText;
 			return dialogText;
 		};
