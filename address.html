@@ -20,33 +20,68 @@
 		}
 		header .address-book-name{
 			text-align: center;
+			line-height: 30px;
+			font-size: 18px;
 		}
 		header .search-div{
 			position: absolute;
 			left: 50%;
 			transform: translateX(-50%);
+			width: 100%;
+		}
+		.icon-search{
+			vertical-align: middle; 
+			color: #fff;
+			position: relative;
+			left: 25px;
+			z-index: 10;
 		}
 		#search{
 			border: none;
 			border-radius: 10px;
 			background-color: #5A95BA;
 			color: #fff;
-			width: 85%;
+			width: 83%;
 			vertical-align:middle;
 			position: relative;
-			line-height: 28px;
+			line-height: 24px;
 			padding-left: 28px;
 			margin: 0 auto;
 		}
 		#add{
 			float: right;
+			vertical-align: middle; 
+			font-size: 20px;
+			margin-right: 10px; 
 		}
 		#main{
-			padding-top: 88px; 
-			padding-bottom: 44px;
+			padding-top: 88px;
 			overflow: hidden;
 			background-color: #5A95BA;
 			min-height: 100vh;
+		}
+		#index{
+			position: fixed;
+			width: 22px;
+			padding-left: 5px;
+			height: calc(100vh - 88px);
+		}
+		#index .alphabet{
+			height: 3.8%;
+			color: #fff;
+		}
+		.address-list{
+			width: 100vw;
+			padding: 10px 0 10px 22px;
+		}
+		.address-list .item{
+			width: 80%;
+			padding: 5px 15px;
+			background-color: #fff;
+			border-radius: 6px;
+		}
+		.address-list .item .namae{
+			font-size: 2em;
 		}
 	</style>
 </head>
@@ -54,14 +89,47 @@
 	<div class="app">
 		<header>
 			<div class="address-book-name">緊急時以外かけちゃダメ</div>
+			<i class="iconfont icon-tianjia" id="add"></i>
 			<div class="search-div">
 				<i class="iconfont icon-search"></i>
 				<input type="text" name="search" id="search" />
 			</div>
-			<i class="iconfont icon-tianjia" id="add"></i>
 		</header>
 		<div id="main">
-			
+			<div id="index">
+				<div class="alphabet">A</div>
+				<div class="alphabet">B</div>
+				<div class="alphabet">C</div>
+				<div class="alphabet">D</div>
+				<div class="alphabet">E</div>
+				<div class="alphabet">F</div>
+				<div class="alphabet">G</div>
+				<div class="alphabet">H</div>
+				<div class="alphabet">I</div>
+				<div class="alphabet">J</div>
+				<div class="alphabet">K</div>
+				<div class="alphabet">L</div>
+				<div class="alphabet">M</div>
+				<div class="alphabet">N</div>
+				<div class="alphabet">O</div>
+				<div class="alphabet">P</div>
+				<div class="alphabet">Q</div>
+				<div class="alphabet">R</div>
+				<div class="alphabet">S</div>
+				<div class="alphabet">T</div>
+				<div class="alphabet">U</div>
+				<div class="alphabet">V</div>
+				<div class="alphabet">W</div>
+				<div class="alphabet">X</div>
+				<div class="alphabet">Y</div>
+				<div class="alphabet">Z</div>
+			</div>
+			<div class="address-list">
+				<div class="item clearfix">
+					<div class="namae">宮水　三葉</div>
+					<div class="phone pull-right">131 1954 5888</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

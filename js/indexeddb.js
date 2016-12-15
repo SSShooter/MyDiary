@@ -19,6 +19,11 @@ var db_obj;
          objStore.createIndex("create_date", "create_date", {unique: false});
          objStore.createIndex("folder", "folder", {unique: false});
       }
+      if (!thisDB.objectStoreNames.contains("address")) {
+         var objStore = thisDB.createObjectStore("address", {keyPath: "address_id"});
+         objStore.createIndex("create_date", "create_date", {unique: false});
+         objStore.createIndex("folder", "folder", {unique: false});
+      }
       if (!thisDB.objectStoreNames.contains("menu")) {
          var objStore = thisDB.createObjectStore("menu", {keyPath: "folder_id", autoIncrement: true});
          objStore.createIndex("create_date", "create_date", {unique: false});
