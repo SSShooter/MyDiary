@@ -14,6 +14,8 @@
 			padding-top: 22px;
 			height: 88px;
 			position: fixed;
+			top: 0;
+			left: 0;
 			width: 100vw;
 			color: #5A95BA;
 			background-color: #fff;
@@ -95,9 +97,31 @@
 	</style>
 </head>
 <body>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="table">
+		<div class="table-cell">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body clearfix">
+					<!-- 清除浮动 -->
+						<div class="form-group">
+							<label>name</label>
+							<input type="text" name="name" class="form-control">
+						</div>
+						<div class="form-group">
+							<label>number</label>
+							<input type="text" name="number" class="form-control">
+						</div>
+						<button type="submit" class="btn btn-default pull-right" id="submitNewFolder">Submit</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 	<div class="app">
 		<header>
-			<div class="address-book-name">緊急時以外かけちゃダメ<i class="iconfont icon-tianjia" id="add"></i></div>
+			<div class="address-book-name">緊急時以外かけちゃダメ<i class="iconfont icon-tianjia" id="add" data-toggle="modal" data-target="#myModal"></i></div>
 			
 			<div class="search-div">
 				<i class="iconfont icon-search"></i>
@@ -170,10 +194,10 @@
 	    		alphabetDivision = data[i].alphabetical_order;
 	    		if(data[i-1]){
 	    			if (data[i].alphabetical_order!==data[i-1].alphabetical_order) {
-		    			all_item+= '<div class="alphabet-item" id="'+ alphabetDivision +'">'+alphabetDivision+'</div>';
+		    			all_item+= '<div class="alphabet-item" id="'+ alphabetDivision.toLowerCase() +'">'+alphabetDivision+'</div>';
 		    		}
 	    		}else{
-		    		all_item+= '<div class="alphabet-item" id="'+ alphabetDivision +'">'+alphabetDivision+'</div>';
+		    		all_item+= '<div class="alphabet-item" id="'+ alphabetDivision.toLowerCase() +'">'+alphabetDivision+'</div>';
 	    		}
 	    		var item = '<div class="item clearfix"><div class="namae">'+ data[i].name +'</div><div class="number pull-right">'+ data[i].number +'</div></div>';
 	    		all_item+=item;
@@ -187,35 +211,45 @@
 		var el = document.getElementById('index');
 		var el_event = new AlloyFinger(el, {
 		    touchMove: function (e) {
+		    	e.preventDefault();//禁止滚动
 		    	var Y = e.changedTouches[0].clientY - 88;
 		    	var cell = $(this).height()/26;
-		    	if (Y<cell) {console.log('A');}
-		    	else if(Y<cell*2){console.log('B');}
-		    	else if(Y<cell*3){console.log('c');}
-		    	else if(Y<cell*4){console.log('d');}
-		    	else if(Y<cell*5){console.log('e');}
-		    	else if(Y<cell*6){console.log('f');}
-		    	else if(Y<cell*7){console.log('g');}
-		    	else if(Y<cell*8){console.log('h');}
-		    	else if(Y<cell*9){console.log('i');}
-		    	else if(Y<cell*10){console.log('j');}
-		    	else if(Y<cell*11){console.log('k');}
-		    	else if(Y<cell*12){console.log('l');}
-		    	else if(Y<cell*13){console.log('m');}
-		    	else if(Y<cell*14){console.log('n');}
-		    	else if(Y<cell*15){console.log('o');}
-		    	else if(Y<cell*16){console.log('p');}
-		    	else if(Y<cell*17){console.log('q');}
-		    	else if(Y<cell*18){console.log('r');}
-		    	else if(Y<cell*19){console.log('s');}
-		    	else if(Y<cell*20){console.log('t');}
-		    	else if(Y<cell*21){console.log('u');}
-		    	else if(Y<cell*22){console.log('v');}
-		    	else if(Y<cell*23){console.log('w');}
-		    	else if(Y<cell*24){console.log('x');}
-		    	else if(Y<cell*25){console.log('y');}
-		    	else if(Y<cell*26){console.log('z');}
+		    	if (Y<cell) {scroll('a');}
+		    	else if(Y<cell*2){scroll('b');}
+		    	else if(Y<cell*3){scroll('c');}
+		    	else if(Y<cell*4){scroll('d');}
+		    	else if(Y<cell*5){scroll('e');}
+		    	else if(Y<cell*6){scroll('f');}
+		    	else if(Y<cell*7){scroll('g');}
+		    	else if(Y<cell*8){scroll('h');}
+		    	else if(Y<cell*9){scroll('i');}
+		    	else if(Y<cell*10){scroll('j');}
+		    	else if(Y<cell*11){scroll('k');}
+		    	else if(Y<cell*12){scroll('l');}
+		    	else if(Y<cell*13){scroll('m');}
+		    	else if(Y<cell*14){scroll('n');}
+		    	else if(Y<cell*15){scroll('o');}
+		    	else if(Y<cell*16){scroll('p');}
+		    	else if(Y<cell*17){scroll('q');}
+		    	else if(Y<cell*18){scroll('r');}
+		    	else if(Y<cell*19){scroll('s');}
+		    	else if(Y<cell*20){scroll('t');}
+		    	else if(Y<cell*21){scroll('u');}
+		    	else if(Y<cell*22){scroll('v');}
+		    	else if(Y<cell*23){scroll('w');}
+		    	else if(Y<cell*24){scroll('x');}
+		    	else if(Y<cell*25){scroll('y');}
+		    	else if(Y<cell*26){scroll('z');}
 		    }
+		});
+		function scroll(x){
+			if(document.getElementById(x)){
+				$("html,body").animate({scrollTop:$("#"+x).offset().top-88},10);
+			}else{return;}
+		}
+
+		$('#add').click(function() {
+			
 		});
 	</script>
 </body>
