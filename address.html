@@ -22,18 +22,22 @@
 			text-align: center;
 			line-height: 30px;
 			font-size: 18px;
+			/*平衡+号的造成的偏移*/
+			padding-left: 50px;
 		}
 		header .search-div{
 			position: absolute;
 			left: 50%;
 			transform: translateX(-50%);
 			width: 100%;
+			padding: 0 20px;
 		}
 		.icon-search{
 			vertical-align: middle; 
 			color: #fff;
-			position: relative;
+			position: absolute;
 			left: 25px;
+			line-height: 26px;
 			z-index: 10;
 		}
 		#search{
@@ -41,7 +45,7 @@
 			border-radius: 10px;
 			background-color: #5A95BA;
 			color: #fff;
-			width: 83%;
+			width: 100%;
 			vertical-align:middle;
 			position: relative;
 			line-height: 24px;
@@ -72,13 +76,18 @@
 		}
 		.address-list{
 			width: 100vw;
-			padding: 10px 0 10px 22px;
+			padding: 10px 30px 10px 52px;
 		}
 		.address-list .item{
-			width: 80%;
+			width: 100%;
 			padding: 5px 15px;
+			margin: 8px 0;
 			background-color: #fff;
 			border-radius: 6px;
+		}
+		.address-list .alphabet-item{
+			text-align: center;
+			color: #fff;
 		}
 		.address-list .item .namae{
 			font-size: 2em;
@@ -88,8 +97,8 @@
 <body>
 	<div class="app">
 		<header>
-			<div class="address-book-name">緊急時以外かけちゃダメ</div>
-			<i class="iconfont icon-tianjia" id="add"></i>
+			<div class="address-book-name">緊急時以外かけちゃダメ<i class="iconfont icon-tianjia" id="add"></i></div>
+			
 			<div class="search-div">
 				<i class="iconfont icon-search"></i>
 				<input type="text" name="search" id="search" />
@@ -125,12 +134,89 @@
 				<div class="alphabet">Z</div>
 			</div>
 			<div class="address-list">
-				<div class="item clearfix">
+				<!-- <div class="item clearfix">
 					<div class="namae">宮水　三葉</div>
-					<div class="phone pull-right">131 1954 5888</div>
-				</div>
+					<div class="number pull-right">131 1954 5888</div>
+				</div> -->
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="js/indexeddb.js"></script>
+	<script type="text/javascript" src="lib/alloy_finger.js"></script>
+	<script>
+		var demodata = [
+			{address_id:'1',name:'宮水　三葉',number:23332333,alphabetical_order:'M',folder:1},
+			{address_id:'2',name:'立花　瀧',number:23332333,alphabetical_order:'T',folder:1},
+			{address_id:'7',name:'Alice',number:23332333,alphabetical_order:'A',folder:1},
+			{address_id:'8',name:'Alice',number:23332333,alphabetical_order:'A',folder:1},
+			{address_id:'9',name:'Alice',number:23332333,alphabetical_order:'A',folder:1},
+			{address_id:'11',name:'Alice',number:23332333,alphabetical_order:'A',folder:1},
+			{address_id:'12',name:'Alice',number:23332333,alphabetical_order:'A',folder:1},
+			{address_id:'13',name:'Alice',number:23332333,alphabetical_order:'A',folder:1},
+			{address_id:'14',name:'Alice',number:23332333,alphabetical_order:'A',folder:1},
+			{address_id:'3',name:'Alice',number:23332333,alphabetical_order:'A',folder:1},
+			{address_id:'4',name:'233',number:23332333,alphabetical_order:'M',folder:99},
+			{address_id:'5',name:'reimu',number:23332333,alphabetical_order:'T',folder:99},
+			{address_id:'6',name:'Alice',number:23332333,alphabetical_order:'A',folder:9}
+		];
+		var folder = localStorage.getItem("folder");
+		getAddress(folder, process);
+		function process(rowdata){
+	    	var data = rowdata.data;
+	    	var alphabetDivision;
+	    	console.log(data);
+	    	var all_item = '';
+	    	for(var i = 0;i<data.length;i++){
+	    		alphabetDivision = data[i].alphabetical_order;
+	    		if(data[i-1]){
+	    			if (data[i].alphabetical_order!==data[i-1].alphabetical_order) {
+		    			all_item+= '<div class="alphabet-item" id="'+ alphabetDivision +'">'+alphabetDivision+'</div>';
+		    		}
+	    		}else{
+		    		all_item+= '<div class="alphabet-item" id="'+ alphabetDivision +'">'+alphabetDivision+'</div>';
+	    		}
+	    		var item = '<div class="item clearfix"><div class="namae">'+ data[i].name +'</div><div class="number pull-right">'+ data[i].number +'</div></div>';
+	    		all_item+=item;
+	    	}
+	    	$(".address-list").append(all_item);
+	    }
+	    $('#search').on('input',function(e){ 
+	    	var input_content = $(this).val();
+		    
+		});  
+		var el = document.getElementById('index');
+		var el_event = new AlloyFinger(el, {
+		    touchMove: function (e) {
+		    	var Y = e.changedTouches[0].clientY - 88;
+		    	var cell = $(this).height()/26;
+		    	if (Y<cell) {console.log('A');}
+		    	else if(Y<cell*2){console.log('B');}
+		    	else if(Y<cell*3){console.log('c');}
+		    	else if(Y<cell*4){console.log('d');}
+		    	else if(Y<cell*5){console.log('e');}
+		    	else if(Y<cell*6){console.log('f');}
+		    	else if(Y<cell*7){console.log('g');}
+		    	else if(Y<cell*8){console.log('h');}
+		    	else if(Y<cell*9){console.log('i');}
+		    	else if(Y<cell*10){console.log('j');}
+		    	else if(Y<cell*11){console.log('k');}
+		    	else if(Y<cell*12){console.log('l');}
+		    	else if(Y<cell*13){console.log('m');}
+		    	else if(Y<cell*14){console.log('n');}
+		    	else if(Y<cell*15){console.log('o');}
+		    	else if(Y<cell*16){console.log('p');}
+		    	else if(Y<cell*17){console.log('q');}
+		    	else if(Y<cell*18){console.log('r');}
+		    	else if(Y<cell*19){console.log('s');}
+		    	else if(Y<cell*20){console.log('t');}
+		    	else if(Y<cell*21){console.log('u');}
+		    	else if(Y<cell*22){console.log('v');}
+		    	else if(Y<cell*23){console.log('w');}
+		    	else if(Y<cell*24){console.log('x');}
+		    	else if(Y<cell*25){console.log('y');}
+		    	else if(Y<cell*26){console.log('z');}
+		    }
+		});
+	</script>
 </body>
 </html>

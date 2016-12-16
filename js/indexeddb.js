@@ -21,7 +21,8 @@ var db_obj;
       }
       if (!thisDB.objectStoreNames.contains("address")) {
          var objStore = thisDB.createObjectStore("address", {keyPath: "address_id"});
-         objStore.createIndex("create_date", "create_date", {unique: false});
+         objStore.createIndex("folder, alphabetical_order", ['folder', 'alphabetical_order']);
+         objStore.createIndex("alphabetical_order", "alphabetical_order", {unique: false});
          objStore.createIndex("folder", "folder", {unique: false});
       }
       if (!thisDB.objectStoreNames.contains("menu")) {
@@ -200,12 +201,43 @@ function getDiaryBySearch(table, keywords, cb) {
       console.log("transaction complete");
    };
    transaction.onerror = function (event) {
-      console.dir(event)
+      console.dir(event);
    };
    var objectStore = transaction.objectStore(table);
    var boundKeyRange = IDBKeyRange.only(keywords);
    var rowData=[];
    objectStore.index("folder").openCursor(boundKeyRange).onsuccess = function (event) {
+      var cursor = event.target.result;
+      if (!cursor) {
+         if (cb) {
+            cb({
+               error: 0,
+               data : rowData
+            })
+         }
+         return;
+      }
+      rowData.push(cursor.value);
+      cursor.continue();
+   };
+   };
+}
+function getAddress(folder, cb) {
+   indexedDB.open('mydiary', 1).onsuccess = function (e) {
+   db_obj = e.target.result;
+   var transaction = db_obj.transaction('address', 'readwrite');
+   transaction.oncomplete = function () {
+      console.log("transaction complete");
+   };
+   transaction.onerror = function (event) {
+      console.dir(event)
+   };
+   var objectStore = transaction.objectStore('address');
+   var lowerBound = [Number(folder),'A'];//顺序影响结果，要先选出文件夹再定范围
+   var upperBound = [Number(folder),'Z'];
+   var range = IDBKeyRange.bound(lowerBound, upperBound);
+   var rowData=[];
+   objectStore.index("folder, alphabetical_order").openCursor(range).onsuccess = function (event) {
       var cursor = event.target.result;
       if (!cursor) {
          if (cb) {
