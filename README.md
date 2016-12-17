@@ -3,8 +3,9 @@ progress
 UI 95% complete  
 function 60% complete  
 data save with indexedDB  
-
-hybird app进度:  
+  
+添加电话本功能  
+hybird app进度:  
 界面完成度：95%  
 功能完成度：60%  
 数据储存方式参考[之前写的日记应用](https://github.com/ssshooter/DAnote)  
@@ -30,4 +31,5 @@ html5版已基本完成，准备改成hybird app，方法还在思考中
 ![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/11.png)  
 ![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/12.png)  
 ![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/13.png)  
-![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/14.png)  
+![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/14.png)  
+![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/15.png)
