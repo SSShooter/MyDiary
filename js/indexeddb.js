@@ -233,8 +233,8 @@ function getAddress(folder, cb) {
       console.dir(event)
    };
    var objectStore = transaction.objectStore('address');
-   var lowerBound = [Number(folder),'A'];//顺序影响结果，要先选出文件夹再定范围
-   var upperBound = [Number(folder),'Z'];
+   var lowerBound = [folder,'A'];//顺序影响结果，要先选出文件夹再定范围
+   var upperBound = [folder,'Z'];
    var range = IDBKeyRange.bound(lowerBound, upperBound);
    var rowData=[];
    objectStore.index("folder, alphabetical_order").openCursor(range).onsuccess = function (event) {
@@ -271,7 +271,34 @@ function searchString(keyword,cb){
        }
    };
 }
-
+function searchAddress(folder, keyword, cb) {
+   indexedDB.open('mydiary', 1).onsuccess = function (e) {
+   db_obj = e.target.result;
+   var transaction = db_obj.transaction('address', 'readwrite');
+   transaction.oncomplete = function () {
+      console.log("transaction complete");
+   };
+   transaction.onerror = function (event) {
+      console.dir(event)
+   };
+   var objectStore = transaction.objectStore('address');
+   var lowerBound = [folder,'A'];//顺序影响结果，要先选出文件夹再定范围
+   var upperBound = [folder,'Z'];
+   var range = IDBKeyRange.bound(lowerBound, upperBound);
+   var result=[];
+   objectStore.index("folder, alphabetical_order").openCursor(range).onsuccess = function (event) {
+      var cursor = event.target.result;
+      if (cursor) {
+           if (cursor.value.name.indexOf(keyword) !== -1 ||String(cursor.value.number).indexOf(keyword) !== -1) {                
+               result.push(cursor.value);
+           }  
+           cursor.continue();          
+       }else{
+         cb(result);
+       }
+   };
+   };
+}
 function getDataByPager(start, end, cb) {
    var transaction = db_obj.transaction("diary", 'readwrite');
    transaction.oncomplete = function () {

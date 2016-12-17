@@ -94,6 +94,9 @@
 		.address-list .item .namae{
 			font-size: 2em;
 		}
+		.app{
+			display: none;
+		}
 	</style>
 </head>
 <body>
@@ -109,10 +112,14 @@
 							<input type="text" name="name" class="form-control">
 						</div>
 						<div class="form-group">
+							<label>index</label>
+							<input type="text" name="index" class="form-control" disabled>
+						</div>
+						<div class="form-group">
 							<label>number</label>
 							<input type="text" name="number" class="form-control">
 						</div>
-						<button type="submit" class="btn btn-default pull-right" id="submitNewFolder">Submit</button>
+						<button type="submit" class="btn btn-default pull-right" id="submitNewAddress">Submit</button>
 					</div>
 				</div>
 			</div>
@@ -168,20 +175,24 @@
 	<script type="text/javascript" src="js/indexeddb.js"></script>
 	<script type="text/javascript" src="lib/alloy_finger.js"></script>
 	<script>
+		$(".app").fadeIn('slow');
+		if(localStorage.theme === 'mitsuha'){
+			$('head').append('<link rel="stylesheet" type="text/css" href="css/mitsuha.address.css">');
+		}
 		var demodata = [
-			{address_id:'1',name:'宮水　三葉',number:23332333,alphabetical_order:'M',folder:1},
-			{address_id:'2',name:'立花　瀧',number:23332333,alphabetical_order:'T',folder:1},
-			{address_id:'7',name:'Alice',number:23332333,alphabetical_order:'A',folder:1},
-			{address_id:'8',name:'Alice',number:23332333,alphabetical_order:'A',folder:1},
-			{address_id:'9',name:'Alice',number:23332333,alphabetical_order:'A',folder:1},
-			{address_id:'11',name:'Alice',number:23332333,alphabetical_order:'A',folder:1},
-			{address_id:'12',name:'Alice',number:23332333,alphabetical_order:'A',folder:1},
-			{address_id:'13',name:'Alice',number:23332333,alphabetical_order:'A',folder:1},
-			{address_id:'14',name:'Alice',number:23332333,alphabetical_order:'A',folder:1},
-			{address_id:'3',name:'Alice',number:23332333,alphabetical_order:'A',folder:1},
-			{address_id:'4',name:'233',number:23332333,alphabetical_order:'M',folder:99},
-			{address_id:'5',name:'reimu',number:23332333,alphabetical_order:'T',folder:99},
-			{address_id:'6',name:'Alice',number:23332333,alphabetical_order:'A',folder:9}
+			{address_id:'1',name:'宮水　三葉',number:23332333,alphabetical_order:'M',folder:'1'},
+			{address_id:'2',name:'立花　瀧',number:23332333,alphabetical_order:'T',folder:'1'},
+			{address_id:'7',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'},
+			{address_id:'8',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'},
+			{address_id:'9',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'},
+			{address_id:'11',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'},
+			{address_id:'12',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'},
+			{address_id:'13',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'},
+			{address_id:'14',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'},
+			{address_id:'3',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'},
+			{address_id:'4',name:'233',number:23332333,alphabetical_order:'M',folder:'1'},
+			{address_id:'5',name:'reimu',number:23332333,alphabetical_order:'T',folder:'1'},
+			{address_id:'6',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'}
 		];
 		var folder = localStorage.getItem("folder");
 		getAddress(folder, process);
@@ -202,11 +213,22 @@
 	    		var item = '<div class="item clearfix"><div class="namae">'+ data[i].name +'</div><div class="number pull-right">'+ data[i].number +'</div></div>';
 	    		all_item+=item;
 	    	}
-	    	$(".address-list").append(all_item);
+	    	$(".address-list").html(all_item);
 	    }
 	    $('#search').on('input',function(e){ 
-	    	var input_content = $(this).val();
-		    
+	    	var input_content = e.target.value;
+		    if(input_content){
+		    	var items = '';
+				searchAddress(folder, e.target.value,function(data){
+					for(var i = 0;i<data.length;i++){
+			    		var item = '<div class="item clearfix"><div class="namae">'+ data[i].name +'</div><div class="number pull-right">'+ data[i].number +'</div></div>';
+			    		items+=item;
+			    	}
+			    	$(".address-list").html(items);
+				});
+		    }else{
+		    	getAddress(folder, process);
+		    }
 		});  
 		var el = document.getElementById('index');
 		var el_event = new AlloyFinger(el, {
@@ -247,9 +269,31 @@
 				$("html,body").animate({scrollTop:$("#"+x).offset().top-88},10);
 			}else{return;}
 		}
-
-		$('#add').click(function() {
-			
+		var initial_alphabet;
+		$('input[name="name"]').on('input',function(e){
+			if(e.target.value){
+				if(!initial_alphabet){//initial_alphabet没有内容时，为其赋值
+					initial_alphabet = e.target.value;
+					$('input[name="index"]').val(initial_alphabet.toUpperCase());
+				}
+			}else{//如果没有内容，initial_alphabet为空，并重新检测第一个输入的值
+				initial_alphabet = '';
+				$('input[name="index"]').val('');
+			}
+		});
+		$('#submitNewAddress').click(function() {
+			var index = $('input[name="index"]').val();
+			var name = $('input[name="name"]').val();
+			var number = $('input[name="number"]').val();
+			if(index && name && number){
+				var timestamp = new Date().getTime();
+				var newdata = {address_id:'aid'+timestamp,name:name,number:Number(number),alphabetical_order:index,folder:folder};
+				addData('address', newdata, function(){
+					alert('添加成功');
+				});
+				plus(folder);
+				setTimeout("location.reload()",500);
+			}
 		});
 	</script>
 </body>
