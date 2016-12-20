@@ -214,8 +214,9 @@
 					<!-- 清除浮动 -->
 						<div class="checkbox">
 							<strong>folder type</strong>
-							<label name="diary" class="checked" for="diary"><i class="iconfont icon-book"></i>diary<input type="radio" id="diary" checked="checked" name="sport" value="diary"></label>
-							<label name="list" for="list"><i class="iconfont icon-alert"></i>list<input type="radio" id="list" name="sport" value="list"></label>
+							<label name="diary" class="checked" for="diary"><i class="iconfont icon-book"></i>diary<input type="radio" id="diary" checked="checked" value="diary"></label>
+							<label name="list" for="list"><i class="iconfont icon-alert"></i>list<input type="radio" id="list" value="list"></label>
+							<label name="address" for="address"><i class="iconfont icon-phone"></i>address book<input type="radio" id="address" value="address"></label>
 						</div>
 						<div class="form-group">
 							<strong>folder name</strong>
@@ -309,8 +310,12 @@
 			$('#setting-mask').fadeIn();
 			$('#setting-div').fadeIn();
 		});
-		$('#setting-mask').click(function() {
-			$('#setting-mask').fadeOut();
+		$('#setting-mask').on('touchstart',function(e){
+			console.log(123);
+		    e.preventDefault();//禁止滚动
+		});
+		$('#setting-mask').on('touchend',function(e){
+		    $('#setting-mask').fadeOut();
 			$('#setting-div').fadeOut();
 		});
 
@@ -337,8 +342,10 @@
 			var icon;
 			if (type==='diary') {
 				icon = 'book';
-			}else{
+			}else if (type==='list'){
 				icon = 'alert';
+			}else{
+				icon = 'phone';
 			}
 			if(name){
 				var newdata = {type:type, count:0 ,icon:icon, name:name};

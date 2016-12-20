@@ -14,9 +14,6 @@
 	<!-- 自定义bs -->
 	<link rel="stylesheet" type="text/css" href="css/custombs.css">
 	<style type="text/css">
-		*{
-			font-family: "微软雅黑";
-		}
 		header{
 			/*padding for导航栏*/
 			padding-top: 28px;
@@ -31,8 +28,7 @@
 		/*以上公用 以下本文件专用*/
 		#main{
 			min-height: 100vh;
-			box-sizing: border-box;
-			padding-top:89px; 
+			padding-top:88px; 
 			padding-bottom: 44px;
 		}
 		/*padding = 140 - 60 - 20 * 2*/
@@ -66,9 +62,9 @@
 		/*height = 100vh - 89px - 140px - 44px */
 		/*全屏高-头部-日期div-footer-title输入框*/
 		#diary-content{
-			height:calc(100vh - 89px - 140px - 44px - 75px);
+			max-height:calc(100vh - 89px - 140px - 44px - 75px);
+			min-height:200px;
 			overflow-y: scroll;
-			
 		}
 		footer{
 			position: fixed;
@@ -155,12 +151,17 @@
 				console.log(data);
 				addData("diary",data);
 				plus(folder);
-				setTimeout("location='entries.html'",500);
+				setTimeout("location.replace('entries.html')",500);
 			}else{
 				alert("~content empty~");
 			}
 		}
-
+		$("#diary-content").on('focus',function(){
+			$('.show-date').css('display', 'none');
+		});
+		$("#diary-content").on('blur',function(){
+			$('.show-date').css('display', 'block');
+		});
 		function getNowFormatDate() {
 		    var date = new Date();
 		    var seperator1 = "-";
