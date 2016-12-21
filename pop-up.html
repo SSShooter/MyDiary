@@ -43,10 +43,10 @@
 		<div class="pop-up-box">
 			<div class="content">
 				<p class="name">miyamizu mitsuha</p>
-				<p class="number">12304567</p>
+				<p class="number" href="tel:139xxxxxxxx">12304567</p>
 			</div>
 			<div class="footer">
-				<button class="btn btn-default">call</button>
+				<button class="btn btn-default"  onclick="location.href = 'tel:15626217777';">call</button>
 				<button class="btn btn-default">delete</button>
 			</div>
 		</div>
@@ -60,10 +60,10 @@
 		});
 		$(".pop-up").click(function(e) {
 			e.preventDefault();//防止滚动
-			$('.pop-up-box').click(function(e) {
-				e.stopPropagation();//防止冒泡
-			});
 			$('.pop-up,.pop-up-box').velocity('reverse', { display: "none" });
+		});
+		$('.pop-up-box').click(function(e) {
+			e.stopPropagation();//防止冒泡
 		});
 	</script>
 </body>
