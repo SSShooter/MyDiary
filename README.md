@@ -16,7 +16,8 @@ html5版已基本完成，准备改成hybird app，方法还在思考中
 功能  
 * 电话本  
 * 日记本  
-* 列表（事项）
+* 列表（事项）  
+
     
 # 界面截图
 ![image](https://github.com/ssshooter/MyDiary/blob/master/Screenshots/02.png)
