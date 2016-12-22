@@ -48,7 +48,7 @@ html,body{
 }
 .pop-up-box{
 	position: relative;
-	top: -50px;
+	top: 10%;
 	display: none;
 	width: 100%;
 	padding: 20px;

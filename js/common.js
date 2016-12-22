@@ -1,9 +1,11 @@
 $.fn.popUpPop = function(){
 	for(var i = 0;i < this.length;i++){
 		var target = $(this[i]).data('poptarget');
+		var top = $('#'+target).children('.pop-up-box').css('top');
+		$('#'+target).children('.pop-up-box').css('top',parseInt(top)-100);
 		this[i].addEventListener("click",function(){
 			$('#'+target).velocity({ opacity: 1 }, { display: "block" });
-			$('#'+target).children('.pop-up-box').velocity({ top: 30, opacity: 1 }, { display: "block" });
+			$('#'+target).children('.pop-up-box').velocity({ top: top, opacity: 1 }, { display: "block" });
 		}); 
 	}
 	document.getElementById(target).addEventListener("touchend",function(){
