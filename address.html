@@ -5,8 +5,6 @@
 	<title>address book</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<link rel="stylesheet" href="bootstrap/bootstrap.min.css">
-	<script src="lib/jquery.min.js"></script>
-	<script src="bootstrap/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="icon/iconfont.css">
 	<link rel="stylesheet" type="text/css" href="css/custombs.css">
 	<style>
@@ -100,36 +98,41 @@
 	</style>
 </head>
 <body>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="table">
-		<div class="table-cell">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-body clearfix">
-					<!-- 清除浮动 -->
-						<div class="form-group">
-							<label>name</label>
-							<input type="text" name="name" class="form-control">
-						</div>
-						<div class="form-group">
-							<label>index</label>
-							<input type="text" name="index" class="form-control" disabled>
-						</div>
-						<div class="form-group">
-							<label>number</label>
-							<input type="text" name="number" class="form-control">
-						</div>
-						<button type="submit" class="btn btn-default pull-right" id="submitNewAddress">Submit</button>
-					</div>
-				</div>
-			</div>
+
+<div class="pop-up" id="newaddress">
+	<div class="pop-up-box clearfix">
+		<div class="form-group">
+			<label>name</label>
+			<input type="text" name="name" class="form-control">
+		</div>
+		<div class="form-group">
+			<label>index</label>
+			<input type="text" name="index" class="form-control" disabled>
+		</div>
+		<div class="form-group">
+			<label>number</label>
+			<input type="text" name="number" class="form-control">
+		</div>
+		<button type="submit" class="btn btn-default pull-right" id="submitNewAddress">Submit</button>
+	</div>
+</div>
+
+<div class="pop-up" id="addressdetail">
+	<div class="pop-up-box clearfix">
+		<div class="content">
+			<p class="name">miyamizu mitsuha</p>
+			<p class="number">12304567</p>
+		</div>
+		<div class="footer">
+			<button id="call" class="btn btn-default"  onclick="">call</button>
+			<button class="btn btn-default">delete</button>
 		</div>
 	</div>
 </div>
 
 	<div class="app">
 		<header>
-			<div class="address-book-name">緊急時以外かけちゃダメ<i class="iconfont icon-tianjia" id="add" data-toggle="modal" data-target="#myModal"></i></div>
+			<div class="address-book-name">緊急時以外かけちゃダメ<i class="iconfont icon-tianjia" id="add" data-poptarget="newaddress"></i></div>
 			
 			<div class="search-div">
 				<i class="iconfont icon-search"></i>
@@ -166,20 +169,21 @@
 				<div class="alphabet">Z</div>
 			</div>
 			<div class="address-list">
-				<!-- <div class="item clearfix">
-					<div class="namae">宮水　三葉</div>
-					<div class="number pull-right">131 1954 5888</div>
-				</div> -->
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="js/indexeddb.js"></script>
-	<script type="text/javascript" src="lib/alloy_finger.js"></script>
+	<script src="lib/jquery.min.js"></script>
+	<script src="js/common.js"></script>
+	<script src="lib/velocity.min.js"></script>
+	<script src="bootstrap/bootstrap.min.js"></script>
+	<script src="js/indexeddb.js"></script>
+	<script src="lib/alloy_finger.js"></script>
 	<script>
 		$(".app").fadeIn('slow');
 		if(localStorage.theme === 'mitsuha'){
 			$('head').append('<link rel="stylesheet" type="text/css" href="css/mitsuha.address.css">');
 		}
+		$('#add').popUpPop();
 		var demodata = [
 			{address_id:'1',name:'宮水　三葉',number:23332333,alphabetical_order:'M',folder:'1'},
 			{address_id:'2',name:'立花　瀧',number:23332333,alphabetical_order:'T',folder:'1'},
@@ -196,7 +200,7 @@
 			{address_id:'6',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'}
 		];
 		var folder = localStorage.getItem("folder");
-		getAddress(folder, process);
+		getAddress(Number(folder), process);
 		function process(rowdata){
 	    	var data = rowdata.data;
 	    	var alphabetDivision;
@@ -211,11 +215,19 @@
 	    		}else{
 		    		all_item+= '<div class="alphabet-item" id="'+ alphabetDivision.toLowerCase() +'">'+alphabetDivision+'</div>';
 	    		}
-	    		var item = '<div class="item clearfix"><div class="namae">'+ data[i].name +'</div><div class="number pull-right">'+ data[i].number +'</div></div>';
+	    		var item = '<div class="item clearfix" data-poptarget="addressdetail"><div class="namae">'+ data[i].name +'</div><div class="number pull-right">'+ data[i].number +'</div></div>';
 	    		all_item+=item;
 	    	}
 	    	$(".address-list").html(all_item);
+			$('.item').popUpPop();
 	    }
+	    $('.address-list').on('click','.item',function(){
+	    	var name = this.children[0].innerHTML;
+	    	var number =  this.children[1].innerHTML;
+	    	$('#addressdetail').find('.name').html(name);
+	    	$('#addressdetail').find('.number').html(number);
+	    	$('#call').attr('onclick', 'location.href = \'tel:'+ number +'\'');
+	    });
 	    $('#search').on('input',function(e){ 
 	    	var input_content = e.target.value;
 		    if(input_content){
@@ -288,7 +300,7 @@
 			var number = $('input[name="number"]').val();
 			if(index && name && number){
 				var timestamp = new Date().getTime();
-				var newdata = {address_id:'aid'+timestamp,name:name,number:Number(number),alphabetical_order:index,folder:folder};
+				var newdata = {address_id:'aid'+timestamp,name:name,number:Number(number),alphabetical_order:index,folder:Number(folder)};
 				addData('address', newdata, function(){
 					alert('添加成功');
 				});

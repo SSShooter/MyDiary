@@ -29,3 +29,35 @@
 .form-control:focus{
 	box-shadow: none !important;
 }
+
+/*pop-up框样式*/
+html,body{
+	height: 100%;
+	width: 100%;
+}
+.pop-up{
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0,0,0,.5);
+	display: none;
+	padding: 20px;
+	z-index: 999999999;
+}
+.pop-up-box{
+	position: relative;
+	top: -50px;
+	display: none;
+	width: 100%;
+	padding: 20px;
+	background-color: #fff;
+	border-radius: 6px;
+}
+.content{
+	text-align: center;
+}
+.footer{
+	text-align: center;
+}
