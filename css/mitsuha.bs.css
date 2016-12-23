@@ -20,18 +20,10 @@ header{
 	color: #FFF !important;
 }
 .btn-default{
-	background-color: #fff;
-	border-color: #E88D83; 
-	color: #E88D83;
+	border-color: #E88D83 !important;; 
+	color: #E88D83 !important;;
 }
-/*modal右上角的叉*/
-.close{
-	color: #FFF;
-	opacity: 1;
-}
-.modal-content{
-	border: none;
-}
+
 .form-control:focus{
 	border-color: #E88D83 !important;
 }

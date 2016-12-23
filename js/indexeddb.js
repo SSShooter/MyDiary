@@ -233,7 +233,7 @@ function getAddress(folder, cb) {
       console.dir(event)
    };
    var objectStore = transaction.objectStore('address');
-   var lowerBound = [folder,'A'];//顺序影响结果，要先选出文件夹再定范围
+   var lowerBound = [folder,'#'];//顺序影响结果，要先选出文件夹再定范围
    var upperBound = [folder,'Z'];
    var range = IDBKeyRange.bound(lowerBound, upperBound);
    var rowData=[];
@@ -289,7 +289,7 @@ function searchAddress(folder, keyword, cb) {
    objectStore.index("folder, alphabetical_order").openCursor(range).onsuccess = function (event) {
       var cursor = event.target.result;
       if (cursor) {
-           if (cursor.value.name.indexOf(keyword) !== -1 ||String(cursor.value.number).indexOf(keyword) !== -1) {                
+           if (cursor.value.name.toLowerCase().indexOf(keyword) !== -1 ||cursor.value.name.indexOf(keyword) !== -1 ||String(cursor.value.number).indexOf(keyword) !== -1) {                
                result.push(cursor.value);
            }  
            cursor.continue();          

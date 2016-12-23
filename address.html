@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="bootstrap/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="icon/iconfont.css">
 	<link rel="stylesheet" type="text/css" href="css/custombs.css">
+	<link rel="stylesheet" type="text/css" href="css/animate.min.css">
 	<style>
 		header{
 			padding-top: 22px;
@@ -120,19 +121,19 @@
 <div class="pop-up" id="addressdetail">
 	<div class="pop-up-box clearfix">
 		<div class="content">
-			<p class="name">miyamizu mitsuha</p>
-			<p class="number">12304567</p>
+			<p class="name"></p>
+			<p class="number"></p>
 		</div>
 		<div class="footer">
 			<button id="call" class="btn btn-default"  onclick="">call</button>
-			<button class="btn btn-default">delete</button>
+			<button id="del" class="btn btn-default">delete</button>
 		</div>
 	</div>
 </div>
 
 	<div class="app">
 		<header>
-			<div class="address-book-name">緊急時以外かけちゃダメ<i class="iconfont icon-tianjia" id="add" data-poptarget="newaddress"></i></div>
+			<div class="address-book-name"><span id="title">緊急時以外かけちゃダメ</span><i class="iconfont icon-tianjia" id="add" data-poptarget="newaddress"></i></div>
 			
 			<div class="search-div">
 				<i class="iconfont icon-search"></i>
@@ -181,9 +182,10 @@
 	<script>
 		$(".app").fadeIn('slow');
 		if(localStorage.theme === 'mitsuha'){
-			$('head').append('<link rel="stylesheet" type="text/css" href="css/mitsuha.address.css">');
+			$('head').append('<link rel="stylesheet" type="text/css" href="css/mitsuha.address.css"><link rel="stylesheet" type="text/css" href="css/mitsuha.bs.css">');
 		}
-		$('#add').popUpPop();
+		$('#title').html(localStorage.folder_name);
+		$('#add').popUpPop('newaddress');
 		var demodata = [
 			{address_id:'1',name:'宮水　三葉',number:23332333,alphabetical_order:'M',folder:'1'},
 			{address_id:'2',name:'立花　瀧',number:23332333,alphabetical_order:'T',folder:'1'},
@@ -199,13 +201,13 @@
 			{address_id:'5',name:'reimu',number:23332333,alphabetical_order:'T',folder:'1'},
 			{address_id:'6',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'}
 		];
-		var folder = localStorage.getItem("folder");
-		getAddress(Number(folder), process);
+		var folder = Number(localStorage.getItem("folder"));
+		getAddress(folder, process);
 		function process(rowdata){
 	    	var data = rowdata.data;
 	    	var alphabetDivision;
-	    	console.log(data);
 	    	var all_item = '';
+	    	console.log(data);
 	    	for(var i = 0;i<data.length;i++){
 	    		alphabetDivision = data[i].alphabetical_order;
 	    		if(data[i-1]){
@@ -215,17 +217,18 @@
 	    		}else{
 		    		all_item+= '<div class="alphabet-item" id="'+ alphabetDivision.toLowerCase() +'">'+alphabetDivision+'</div>';
 	    		}
-	    		var item = '<div class="item clearfix" data-poptarget="addressdetail"><div class="namae">'+ data[i].name +'</div><div class="number pull-right">'+ data[i].number +'</div></div>';
+	    		var item = '<div class="item clearfix" data-poptarget="addressdetail" data-aid="'+ data[i].address_id +'"><div class="namae">'+ data[i].name +'</div><div class="number pull-right">'+ data[i].number +'</div></div>';
 	    		all_item+=item;
 	    	}
 	    	$(".address-list").html(all_item);
-			$('.item').popUpPop();
+			$('.item').popUpPop('addressdetail');
 	    }
 	    $('.address-list').on('click','.item',function(){
 	    	var name = this.children[0].innerHTML;
 	    	var number =  this.children[1].innerHTML;
 	    	$('#addressdetail').find('.name').html(name);
 	    	$('#addressdetail').find('.number').html(number);
+			$('#del').data('aid', $(this).data('aid'));
 	    	$('#call').attr('onclick', 'location.href = \'tel:'+ number +'\'');
 	    });
 	    $('#search').on('input',function(e){ 
@@ -234,10 +237,11 @@
 		    	var items = '';
 				searchAddress(folder, e.target.value,function(data){
 					for(var i = 0;i<data.length;i++){
-			    		var item = '<div class="item clearfix"><div class="namae">'+ data[i].name +'</div><div class="number pull-right">'+ data[i].number +'</div></div>';
+			    		var item = '<div class="item clearfix" data-poptarget="addressdetail" data-aid="'+ data[i].address_id +'"><div class="namae">'+ data[i].name +'</div><div class="number pull-right">'+ data[i].number +'</div></div>';
 			    		items+=item;
 			    	}
 			    	$(".address-list").html(items);
+					$('.item').popUpPop();
 				});
 		    }else{
 		    	getAddress(folder, process);
@@ -307,6 +311,14 @@
 				plus(folder);
 				setTimeout("location.reload()",500);
 			}
+		});
+		$('#del').click(function(event) {
+			var id = $(this).data('aid');
+        	deleteData('address', id, function(){
+        		alert('deleted');
+        		setTimeout("location.reload()",500);
+        	});
+        	minus(folder);
 		});
 	</script>
 </body>
