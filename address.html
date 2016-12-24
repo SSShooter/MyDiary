@@ -72,7 +72,7 @@
 			height: calc(100vh - 88px);
 		}
 		#index .alphabet{
-			height: 3.8%;
+			height: 3.7%;
 			color: #fff;
 		}
 		.address-list{
@@ -142,6 +142,7 @@
 		</header>
 		<div id="main">
 			<div id="index">
+				<div class="alphabet">#</div>
 				<div class="alphabet">A</div>
 				<div class="alphabet">B</div>
 				<div class="alphabet">C</div>
@@ -186,21 +187,6 @@
 		}
 		$('#title').html(localStorage.folder_name);
 		$('#add').popUpPop('newaddress');
-		var demodata = [
-			{address_id:'1',name:'宮水　三葉',number:23332333,alphabetical_order:'M',folder:'1'},
-			{address_id:'2',name:'立花　瀧',number:23332333,alphabetical_order:'T',folder:'1'},
-			{address_id:'7',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'},
-			{address_id:'8',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'},
-			{address_id:'9',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'},
-			{address_id:'11',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'},
-			{address_id:'12',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'},
-			{address_id:'13',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'},
-			{address_id:'14',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'},
-			{address_id:'3',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'},
-			{address_id:'4',name:'233',number:23332333,alphabetical_order:'M',folder:'1'},
-			{address_id:'5',name:'reimu',number:23332333,alphabetical_order:'T',folder:'1'},
-			{address_id:'6',name:'Alice',number:23332333,alphabetical_order:'A',folder:'1'}
-		];
 		var folder = Number(localStorage.getItem("folder"));
 		getAddress(folder, process);
 		function process(rowdata){
@@ -210,12 +196,14 @@
 	    	console.log(data);
 	    	for(var i = 0;i<data.length;i++){
 	    		alphabetDivision = data[i].alphabetical_order;
+	    		if(alphabetDivision==='#'){alphabetDivisionId = 'hash';}
+	    		else{alphabetDivisionId = alphabetDivision.toLowerCase();}
 	    		if(data[i-1]){
 	    			if (data[i].alphabetical_order!==data[i-1].alphabetical_order) {
-		    			all_item+= '<div class="alphabet-item" id="'+ alphabetDivision.toLowerCase() +'">'+alphabetDivision+'</div>';
+		    			all_item+= '<div class="alphabet-item" id="'+ alphabetDivisionId +'">'+alphabetDivision+'</div>';
 		    		}
 	    		}else{
-		    		all_item+= '<div class="alphabet-item" id="'+ alphabetDivision.toLowerCase() +'">'+alphabetDivision+'</div>';
+		    		all_item+= '<div class="alphabet-item" id="'+ alphabetDivisionId +'">'+alphabetDivision+'</div>';
 	    		}
 	    		var item = '<div class="item clearfix" data-poptarget="addressdetail" data-aid="'+ data[i].address_id +'"><div class="namae">'+ data[i].name +'</div><div class="number pull-right">'+ data[i].number +'</div></div>';
 	    		all_item+=item;
@@ -252,33 +240,34 @@
 		    touchMove: function (e) {
 		    	e.preventDefault();//禁止滚动
 		    	var Y = e.changedTouches[0].clientY - 88;
-		    	var cell = $(this).height()/26;
-		    	if (Y<cell) {scroll('a');}
-		    	else if(Y<cell*2){scroll('b');}
-		    	else if(Y<cell*3){scroll('c');}
-		    	else if(Y<cell*4){scroll('d');}
-		    	else if(Y<cell*5){scroll('e');}
-		    	else if(Y<cell*6){scroll('f');}
-		    	else if(Y<cell*7){scroll('g');}
-		    	else if(Y<cell*8){scroll('h');}
-		    	else if(Y<cell*9){scroll('i');}
-		    	else if(Y<cell*10){scroll('j');}
-		    	else if(Y<cell*11){scroll('k');}
-		    	else if(Y<cell*12){scroll('l');}
-		    	else if(Y<cell*13){scroll('m');}
-		    	else if(Y<cell*14){scroll('n');}
-		    	else if(Y<cell*15){scroll('o');}
-		    	else if(Y<cell*16){scroll('p');}
-		    	else if(Y<cell*17){scroll('q');}
-		    	else if(Y<cell*18){scroll('r');}
-		    	else if(Y<cell*19){scroll('s');}
-		    	else if(Y<cell*20){scroll('t');}
-		    	else if(Y<cell*21){scroll('u');}
-		    	else if(Y<cell*22){scroll('v');}
-		    	else if(Y<cell*23){scroll('w');}
-		    	else if(Y<cell*24){scroll('x');}
-		    	else if(Y<cell*25){scroll('y');}
-		    	else if(Y<cell*26){scroll('z');}
+		    	var cell = $(this).height()/27;
+		    	if (Y<cell) {scroll('hash');}
+		    	else if(Y<cell*2){scroll('a');}
+		    	else if(Y<cell*3){scroll('b');}
+		    	else if(Y<cell*4){scroll('c');}
+		    	else if(Y<cell*5){scroll('d');}
+		    	else if(Y<cell*6){scroll('e');}
+		    	else if(Y<cell*7){scroll('f');}
+		    	else if(Y<cell*8){scroll('g');}
+		    	else if(Y<cell*9){scroll('h');}
+		    	else if(Y<cell*10){scroll('i');}
+		    	else if(Y<cell*11){scroll('j');}
+		    	else if(Y<cell*12){scroll('k');}
+		    	else if(Y<cell*13){scroll('l');}
+		    	else if(Y<cell*14){scroll('m');}
+		    	else if(Y<cell*15){scroll('n');}
+		    	else if(Y<cell*16){scroll('o');}
+		    	else if(Y<cell*17){scroll('p');}
+		    	else if(Y<cell*18){scroll('q');}
+		    	else if(Y<cell*19){scroll('r');}
+		    	else if(Y<cell*20){scroll('s');}
+		    	else if(Y<cell*21){scroll('t');}
+		    	else if(Y<cell*22){scroll('u');}
+		    	else if(Y<cell*23){scroll('v');}
+		    	else if(Y<cell*24){scroll('w');}
+		    	else if(Y<cell*25){scroll('x');}
+		    	else if(Y<cell*26){scroll('y');}
+		    	else if(Y<cell*27){scroll('z');}
 		    }
 		});
 		function scroll(x){
@@ -287,19 +276,42 @@
 			}else{return;}
 		}
 		var initial_alphabet;
+		var reg = /[A-Za-z]/;
 		$('input[name="name"]').on('input',function(e){
 			if(e.target.value){
+				// console.log(e.target.value);
 				if(!initial_alphabet){//initial_alphabet没有内容时，为其赋值
-					initial_alphabet = e.target.value;
-					$('input[name="index"]').val(initial_alphabet.toUpperCase());
+					var SBCvalue = toSBC(e.target.value);//转半角
+					console.log(SBCvalue);
+					if(reg.test(SBCvalue)){//如果是字母
+						initial_alphabet = SBCvalue;
+						$('input[name="index"]').val(initial_alphabet.toUpperCase());
+					}else{//不是字母，把index设定为#
+						initial_alphabet = '#';
+						$('input[name="index"]').val('#');
+					}
 				}
 			}else{//如果没有内容，initial_alphabet为空，并重新检测第一个输入的值
 				initial_alphabet = '';
 				$('input[name="index"]').val('');
 			}
 		});
+		function toSBC(str){//全角转半角
+		    var result = "";
+		    var len = str.length;
+		    for(var i=0;i<len;i++)
+		    {
+		        var cCode = str.charCodeAt(i);
+		        //全角与半角相差（除空格外）：65248（十进制）
+		        cCode = (cCode>=0xFF01 && cCode<=0xFF5E)?(cCode - 65248) : cCode;
+		        //处理空格
+		        cCode = (cCode==0x03000)?0x0020:cCode;
+		        result += String.fromCharCode(cCode);
+		    }
+		    return result;
+		}
 		$('#submitNewAddress').click(function() {
-			var index = $('input[name="index"]').val();
+			var index = $('input[name="index"]').val() || '#';
 			var name = $('input[name="name"]').val();
 			var number = $('input[name="number"]').val();
 			if(index && name && number){
